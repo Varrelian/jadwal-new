@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#6b0f1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="GiT" />
+  <meta name="description" content="Jadwal Sekolah GiT" />
+  <title>GiT — Jadwal</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --maroon:     #6b0f1a;
+      --maroon-mid: #8b1a2a;
+      --maroon-lt:  #b52a3f;
+      --emerald:    #059669;
+      --emerald-lt: #10b981;
+      --emerald-dk: #047857;
+      --gold:       #f5c842;
+      --cream:      #fef9f0;
+      --bg:         #1a0509;
+      --surface:    #240a10;
+      --surface2:   #2e0e14;
+      --text:       #fef4f0;
+      --text-dim:   #c9a8af;
+      --border:     rgba(139,26,42,0.35);
+      --radius:     16px;
+      --shadow:     0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    /* Background texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(107,15,26,0.45) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(5,150,105,0.2) 0%, transparent 55%),
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 40px,
+          rgba(255,255,255,0.012) 40px,
+          rgba(255,255,255,0.012) 41px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(26,5,9,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+    }
+
+    .header-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--maroon-lt) 60%, var(--emerald-lt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .logo span {
+      font-style: italic;
+      font-size: 0.55em;
+      -webkit-text-fill-color: var(--text-dim);
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .today-badge {
+      background: linear-gradient(135deg, var(--emerald-dk), var(--emerald-lt));
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ─── CONTENT ─── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 16px 100px;
+    }
+
+    /* ─── DAY TABS ─── */
+    .day-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .day-tabs::-webkit-scrollbar { display: none; }
+
+    .day-tab {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .day-tab.active {
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-lt));
+      border-color: var(--maroon-lt);
+      color: white;
+      box-shadow: 0 4px 16px rgba(107,15,26,0.5);
+    }
+
+    .day-tab:hover:not(.active) {
+      border-color: var(--maroon-lt);
+      color: var(--text);
+    }
+
+    /* ─── SCHEDULE CARD ─── */
+    .schedule-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .schedule-day-header {
+      padding: 18px 20px 14px;
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-mid) 100%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .schedule-day-header .day-emoji {
+      font-size: 1.4rem;
+    }
+
+    .schedule-day-header .day-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .schedule-day-header .day-date {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 400;
+    }
+
+    /* ─── SCHEDULE ROWS ─── */
+    .schedule-row {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid rgba(139,26,42,0.15);
+      transition: background 0.15s;
+    }
+    .schedule-row:last-child { border-bottom: none; }
+    .schedule-row:hover { background: rgba(139,26,42,0.08); }
+
+    .schedule-row.type-break {
+      background: rgba(5,150,105,0.07);
+    }
+    .schedule-row.type-break:hover {
+      background: rgba(5,150,105,0.12);
+    }
+    .schedule-row.type-pray {
+      background: rgba(245,200,66,0.05);
+    }
+    .schedule-row.type-pray:hover {
+      background: rgba(245,200,66,0.1);
+    }
+    .schedule-row.type-go {
+      background: rgba(5,150,105,0.12);
+    }
+
+    .time-col {
+      width: 98px;
+      flex-shrink: 0;
+      padding: 12px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      border-right: 2px solid var(--border);
+    }
+
+    .time-start {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .time-end {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .subject-col {
+      flex: 1;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .subject-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .icon-main   { background: rgba(139,26,42,0.25); }
+    .icon-break  { background: rgba(5,150,105,0.2); }
+    .icon-pray   { background: rgba(245,200,66,0.15); }
+    .icon-go     { background: rgba(5,150,105,0.25); }
+
+    .subject-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .subject-name.dim { color: var(--text-dim); font-weight: 400; }
+
+    .type-break .subject-name { color: var(--emerald-lt); }
+    .type-pray  .subject-name { color: var(--gold); }
+    .type-go    .subject-name { color: var(--emerald-lt); font-weight: 600; }
+
+    /* Current time indicator */
+    .schedule-row.current-class {
+      background: rgba(139,26,42,0.22) !important;
+      position: relative;
+    }
+    .schedule-row.current-class::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--maroon-lt);
+      border-radius: 0 2px 2px 0;
+    }
+    .schedule-row.current-class .subject-name {
+      color: #ff8fa0;
+    }
+
+    /* ─── BOTTOM NAV ─── */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0; right: 0;
+      z-index: 100;
+      background: rgba(26,5,9,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .nav-item {
+      flex: 1;
+      max-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 10px 8px;
+      cursor: pointer;
+      color: var(--text-dim);
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-item.active { color: var(--maroon-lt); }
+    .nav-item svg { width: 22px; height: 22px; }
+
+    /* ─── CLOCK ─── */
+    .live-clock {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .clock-time {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold), var(--maroon-lt));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .clock-info {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+    .current-subject-pill {
+      display: inline-block;
+      margin-top: 10px;
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-lt));
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(107,15,26,0.5);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .schedule-card {
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    /* ─── INSTALL PROMPT ─── */
+    .install-banner {
+      display: none;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--emerald-dk), var(--emerald));
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 20px rgba(5,150,105,0.35);
+    }
+    .install-banner.show { display: flex; }
+    .install-banner p {
+      flex: 1;
+      font-size: 0.83rem;
+      font-weight: 500;
+      color: white;
+    }
+    .install-btn {
+      background: white;
+      color: var(--emerald-dk);
+      border: none;
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Scrollbar for desktop */
+    @media (min-width: 480px) {
+      main { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      GiT
+      <span>Jadwal Sekolah</span>
+    </div>
+    <div class="today-badge" id="todayBadge">Hari ini</div>
+  </div>
+</header>
+
+<main>
+  <!-- Live clock -->
+  <div class="live-clock">
+    <div class="clock-time" id="clockTime">00:00</div>
+    <div class="clock-info" id="clockDate">—</div>
+    <div id="currentPill" style="min-height:32px"></div>
+  </div>
+
+  <!-- Install banner -->
+  <div class="install-banner" id="installBanner">
+    <p>📲 Install GiT ke layar utama!</p>
+    <button class="install-btn" id="installBtn">Install</button>
+  </div>
+
+  <!-- Day tabs -->
+  <div class="day-tabs" id="dayTabs"></div>
+
+  <!-- Schedule display -->
+  <div id="scheduleDisplay"></div>
+</main>
+
+<nav class="bottom-nav">
+  <div class="nav-item active" onclick="switchView('schedule')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    Jadwal
+  </div>
+  <div class="nav-item" onclick="switchView('today')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+    Hari Ini
+  </div>
+</nav>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const DAYS = [
+  {
+    name: 'Senin', emoji: '🌸', short: 'Sen',
+    schedule: [
+      { time: '06.45', end: '07.25', subject: 'Ceremony + Public Speaking', type: 'ceremony', icon: '🎤' },
+      { time: '07.30', end: '09.30', subject: 'Kreatif Inovasi & Kewirausahaan', type: 'main', icon: '💡' },
+      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+      { time: '09.50', end: '10.30', subject: 'Kreatif Inovasi & Kewirausahaan', type: 'main', icon: '💡' },
+      { time: '10.30', end: '11.50', subject: 'Bahasa Inggris', type: 'main', icon: '🗣️' },
+      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '13.00', end: '14.20', subject: 'PPKn', type: 'main', icon: '🇮🇩' },
+      { time: '14.20', end: '15.40', subject: 'PJOK', type: 'main', icon: '⚽' },
+      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+    ]
+  },
+  {
+    name: 'Selasa', emoji: '💐', short: 'Sel',
+    schedule: [
+      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+      { time: '07.30', end: '09.30', subject: 'Pem. Teks, Grafis & MM', type: 'main', icon: '🎨' },
+      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+      { time: '09.50', end: '11.50', subject: 'Pem. Teks, Grafis & MM', type: 'main', icon: '🎨' },
+      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '13.00', end: '14.20', subject: 'Basis Data', type: 'main', icon: '🗄️' },
+      { time: '14.20', end: '15.00', subject: 'Bahasa Sunda', type: 'main', icon: '🌿' },
+      { time: '15.00', end: '15.40', subject: 'BK', type: 'main', icon: '🧠' },
+      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+    ]
+  },
+  {
+    name: 'Rabu', emoji: '🌱', short: 'Rab',
+    schedule: [
+      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+      { time: '07.30', end: '08.50', subject: 'Sejarah', type: 'main', icon: '📜' },
+      { time: '08.50', end: '09.30', subject: "Qiro'atul Qur'an", type: 'pray', icon: '📗' },
+      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+      { time: '09.50', end: '10.30', subject: 'PAI', type: 'main', icon: '☪️' },
+      { time: '10.30', end: '11.50', subject: 'Pem. Perangkat Bergerak', type: 'main', icon: '📱' },
+      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '13.00', end: '15.40', subject: 'Pem. Perangkat Bergerak', type: 'main', icon: '📱' },
+      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+    ]
+  },
+  {
+    name: 'Kamis', emoji: '🪴', short: 'Kam',
+    schedule: [
+      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+      { time: '07.30', end: '08.50', subject: 'Bahasa Indonesia', type: 'main', icon: '📝' },
+      { time: '08.50', end: '09.30', subject: 'PAI', type: 'main', icon: '☪️' },
+      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+      { time: '09.50', end: '10.30', subject: 'PAI', type: 'main', icon: '☪️' },
+      { time: '10.30', end: '11.50', subject: 'Pem. Web & Perangkat Bergerak', type: 'main', icon: '🌐' },
+      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '13.00', end: '15.40', subject: 'Pem. Web & Perangkat Bergerak', type: 'main', icon: '🌐' },
+      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+    ]
+  },
+  {
+    name: 'Jumat', emoji: '💐', short: "Jum'at",
+    schedule: [
+      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+      { time: '07.30', end: '09.30', subject: 'Matematika', type: 'main', icon: '📐' },
+      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+      { time: '09.50', end: '10.30', subject: 'Bahasa Indonesia', type: 'main', icon: '📝' },
+      { time: '10.30', end: '11.50', subject: 'Game Developer', type: 'main', icon: '🎮' },
+      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '13.00', end: '14.20', subject: 'Game Developer', type: 'main', icon: '🎮' },
+      { time: '14.20', end: '15.40', subject: 'Bahasa Inggris', type: 'main', icon: '🗣️' },
+      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+    ]
+  }
+];
+
+const DAY_NAMES_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MONTH_NAMES  = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+
+let activeDay = 0;
+
+// ─── UTILS ──────────────────────────────────────────────
+function parseTime(str) {
+  if (!str) return null;
+  const [h, m] = str.replace('.', ':').split(':').map(Number);
+  return h * 60 + m;
+}
+
+function nowMinutes() {
+  const n = new Date();
+  return n.getHours() * 60 + n.getMinutes();
+}
+
+function getCurrentSchoolDayIndex() {
+  const d = new Date().getDay(); // 0=Sun
+  if (d === 0 || d === 6) return 0; // weekend → show Monday
+  return d - 1;
+}
+
+// ─── RENDER ─────────────────────────────────────────────
+function renderTabs() {
+  const container = document.getElementById('dayTabs');
+  container.innerHTML = DAYS.map((d, i) => `
+    <div class="day-tab ${i === activeDay ? 'active' : ''}" onclick="setDay(${i})">
+      ${d.emoji} ${d.short}
+    </div>
+  `).join('');
+}
+
+function renderSchedule() {
+  const day = DAYS[activeDay];
+  const now = nowMinutes();
+  const todayIdx = getCurrentSchoolDayIndex();
+  const isToday = activeDay === todayIdx;
+
+  const rows = day.schedule.map(item => {
+    const start = parseTime(item.time);
+    const end   = parseTime(item.end);
+    const isCurrent = isToday && end !== null && start <= now && now < end;
+    const isPast    = isToday && end !== null && now >= end;
+
+    let rowClass = `schedule-row type-${item.type}`;
+    if (isCurrent) rowClass += ' current-class';
+
+    const timeHTML = item.end
+      ? `<div class="time-start">${item.time}</div><div class="time-end">${item.end}</div>`
+      : `<div class="time-start">${item.time}</div>`;
+
+    const iconClass = item.type === 'break' ? 'icon-break'
+                    : item.type === 'pray'  ? 'icon-pray'
+                    : item.type === 'go'    ? 'icon-go'
+                    : 'icon-main';
+
+    const nameClass = (isPast && item.type !== 'go') ? 'subject-name dim' : 'subject-name';
+
+    return `
+      <div class="${rowClass}">
+        <div class="time-col">${timeHTML}</div>
+        <div class="subject-col">
+          <div class="subject-icon ${iconClass}">${item.icon}</div>
+          <div class="${nameClass}">${item.subject}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('scheduleDisplay').innerHTML = `
+    <div class="schedule-card">
+      <div class="schedule-day-header">
+        <span class="day-emoji">${day.emoji}</span>
+        <span class="day-name">${day.name}</span>
+        ${isToday ? '<span class="day-date">Hari ini</span>' : ''}
+      </div>
+      ${rows}
+    </div>
+  `;
+}
+
+function setDay(idx) {
+  activeDay = idx;
+  renderTabs();
+  renderSchedule();
+}
+
+// ─── CLOCK ──────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+
+  document.getElementById('clockTime').textContent = `${h}:${m}`;
+
+  const dayName = DAY_NAMES_ID[now.getDay()];
+  const dateStr = `${dayName}, ${now.getDate()} ${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+  document.getElementById('clockDate').textContent = dateStr;
+
+  // Today badge
+  document.getElementById('todayBadge').textContent = dayName;
+
+  // Current subject pill
+  const todayIdx = getCurrentSchoolDayIndex();
+  const todaySched = DAYS[todayIdx].schedule;
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  let currentSubj = null;
+  for (const item of todaySched) {
+    const start = parseTime(item.time);
+    const end   = parseTime(item.end);
+    if (end && start <= nowMin && nowMin < end) {
+      currentSubj = item;
+      break;
+    }
+  }
+  const pill = document.getElementById('currentPill');
+  if (currentSubj && now.getDay() >= 1 && now.getDay() <= 5) {
+    pill.innerHTML = `<div class="current-subject-pill">📍 ${currentSubj.subject}</div>`;
+  } else {
+    pill.innerHTML = '';
+  }
+}
+
+// ─── VIEWS ──────────────────────────────────────────────
+function switchView(view) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  if (view === 'today') {
+    setDay(getCurrentSchoolDayIndex());
+    document.querySelectorAll('.nav-item')[1].classList.add('active');
+  } else {
+    document.querySelectorAll('.nav-item')[0].classList.add('active');
+  }
+}
+
+// ─── INSTALL PROMPT ──────────────────────────────────────
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').classList.add('show');
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById('installBanner').classList.remove('show');
+  }
+});
+
+// ─── INIT ────────────────────────────────────────────────
+activeDay = getCurrentSchoolDayIndex();
+renderTabs();
+renderSchedule();
+updateClock();
+setInterval(() => { updateClock(); renderSchedule(); }, 10000);
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>
