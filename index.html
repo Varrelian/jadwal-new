@@ -3,73 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#6b0f1a" />
+  <meta name="theme-color" content="#1e3a5f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="GiT" />
   <meta name="description" content="Jadwal Sekolah GiT" />
-  <title>GiT — Jadwal</title>
+  <title>GiT — Jadwal Sekolah</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.svg" />
+  <link rel="apple-touch-icon" href="logo-192.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --maroon:     #6b0f1a;
-      --maroon-mid: #8b1a2a;
-      --maroon-lt:  #b52a3f;
-      --emerald:    #059669;
-      --emerald-lt: #10b981;
-      --emerald-dk: #047857;
-      --gold:       #f5c842;
-      --cream:      #fef9f0;
-      --bg:         #1a0509;
-      --surface:    #240a10;
-      --surface2:   #2e0e14;
-      --text:       #fef4f0;
-      --text-dim:   #c9a8af;
-      --border:     rgba(139,26,42,0.35);
-      --radius:     16px;
-      --shadow:     0 8px 32px rgba(0,0,0,0.5);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* NEW MODERN THEME - FRESH & CLEAN */
+    :root {
+      /* Primary - Deep Indigo & Soft Blue */
+      --primary-dark: #1e3a5f;
+      --primary: #2c5f8a;
+      --primary-light: #4a90c4;
+      --primary-soft: #e8f0fe;
+      
+      /* Secondary - Warm Coral/Orange */
+      --secondary: #e67e22;
+      --secondary-light: #f39c12;
+      --secondary-soft: #fef3e8;
+      
+      /* Accent - Teal */
+      --accent: #0f9d8e;
+      --accent-light: #2dc4b3;
+      --accent-soft: #e6f6f4;
+      
+      /* Neutral */
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --surface: #ffffff;
+      --surface-light: #f1f5f9;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+      
+      /* Status */
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      
+      /* Effects */
+      --radius-sm: 12px;
+      --radius: 20px;
+      --radius-lg: 28px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 30px rgba(0,0,0,0.1);
+      --shadow-hover: 0 20px 35px -8px rgba(0,0,0,0.15);
+    }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100dvh;
       overflow-x: hidden;
     }
 
-    /* Background texture */
+    /* Subtle background pattern */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(107,15,26,0.45) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(5,150,105,0.2) 0%, transparent 55%),
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 40px,
-          rgba(255,255,255,0.012) 40px,
-          rgba(255,255,255,0.012) 41px
-        );
+      background-image: radial-gradient(circle at 10% 20%, rgba(44,95,138,0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(15,157,142,0.03) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ─── HEADER ─── */
+    /* SPLASH SCREEN - Modern */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--accent) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 1;
+    }
+
+    .splash-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      text-align: center;
+      animation: splashScale 0.6s ease-out;
+    }
+
+    @keyframes splashScale {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .splash-logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      animation: logoFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .splash-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .splash-subtitle {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .splash-loader {
+      width: 32px;
+      height: 32px;
+      margin: 30px auto 0;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .app-content {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .app-content.visible {
+      opacity: 1;
+    }
+
+    /* HEADER */
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(26,5,9,0.88);
+      background: rgba(255,255,255,0.92);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       padding: 0 20px;
     }
@@ -84,40 +197,36 @@
     }
 
     .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, var(--gold) 0%, var(--maroon-lt) 60%, var(--emerald-lt) 100%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1;
+      letter-spacing: -0.02em;
     }
 
     .logo span {
-      font-style: italic;
-      font-size: 0.55em;
-      -webkit-text-fill-color: var(--text-dim);
+      font-size: 0.5rem;
+      font-weight: 500;
+      -webkit-text-fill-color: var(--text-light);
       display: block;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.5px;
       margin-top: 2px;
     }
 
     .today-badge {
-      background: linear-gradient(135deg, var(--emerald-dk), var(--emerald-lt));
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
       color: white;
       font-size: 0.7rem;
       font-weight: 600;
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 20px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
-    /* ─── CONTENT ─── */
+    /* MAIN */
     main {
       position: relative;
       z-index: 1;
@@ -126,66 +235,117 @@
       padding: 20px 16px 100px;
     }
 
-    /* ─── DAY TABS ─── */
+    /* LIVE CLOCK */
+    .live-clock {
+      text-align: center;
+      margin-bottom: 28px;
+      background: linear-gradient(135deg, var(--primary-soft), var(--accent-soft));
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      border: 1px solid rgba(44,95,138,0.1);
+    }
+
+    .clock-time {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    .clock-info {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .current-subject-pill {
+      display: inline-block;
+      margin-top: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 18px;
+      border-radius: 30px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* DAY TABS - Modern */
     .day-tabs {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       margin-bottom: 24px;
       overflow-x: auto;
       scrollbar-width: none;
-      padding-bottom: 2px;
+      padding: 4px 0;
     }
-    .day-tabs::-webkit-scrollbar { display: none; }
+
+    .day-tabs::-webkit-scrollbar {
+      display: none;
+    }
 
     .day-tab {
       flex-shrink: 0;
-      padding: 8px 16px;
-      border-radius: 24px;
-      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 40px;
       background: var(--surface);
-      color: var(--text-dim);
-      font-size: 0.82rem;
-      font-weight: 500;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
       white-space: nowrap;
+      border: 1px solid var(--border);
     }
 
     .day-tab.active {
-      background: linear-gradient(135deg, var(--maroon), var(--maroon-lt));
-      border-color: var(--maroon-lt);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-color: transparent;
       color: white;
-      box-shadow: 0 4px 16px rgba(107,15,26,0.5);
+      box-shadow: var(--shadow);
+      transform: scale(1.02);
     }
 
     .day-tab:hover:not(.active) {
-      border-color: var(--maroon-lt);
-      color: var(--text);
+      background: var(--surface-light);
+      border-color: var(--primary-light);
+      color: var(--primary);
     }
 
-    /* ─── SCHEDULE CARD ─── */
+    /* SCHEDULE CARD - Modern Glassmorphism */
     .schedule-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--border);
+    }
+
+    .schedule-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
     }
 
     .schedule-day-header {
-      padding: 18px 20px 14px;
-      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-mid) 100%);
+      padding: 20px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .schedule-day-header .day-emoji {
-      font-size: 1.4rem;
+      font-size: 1.8rem;
     }
 
     .schedule-day-header .day-name {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 1.3rem;
       font-weight: 700;
       color: white;
@@ -194,129 +354,157 @@
     .schedule-day-header .day-date {
       margin-left: auto;
       font-size: 0.75rem;
-      color: rgba(255,255,255,0.65);
-      font-weight: 400;
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
     }
 
-    /* ─── SCHEDULE ROWS ─── */
+    /* SCHEDULE ROWS */
     .schedule-row {
       display: flex;
       align-items: stretch;
-      border-bottom: 1px solid rgba(139,26,42,0.15);
-      transition: background 0.15s;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.2s;
     }
-    .schedule-row:last-child { border-bottom: none; }
-    .schedule-row:hover { background: rgba(139,26,42,0.08); }
+
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-row:hover {
+      background: var(--surface-light);
+    }
 
     .schedule-row.type-break {
-      background: rgba(5,150,105,0.07);
+      background: var(--accent-soft);
     }
-    .schedule-row.type-break:hover {
-      background: rgba(5,150,105,0.12);
-    }
+
     .schedule-row.type-pray {
-      background: rgba(245,200,66,0.05);
+      background: var(--secondary-soft);
     }
-    .schedule-row.type-pray:hover {
-      background: rgba(245,200,66,0.1);
-    }
+
     .schedule-row.type-go {
-      background: rgba(5,150,105,0.12);
+      background: linear-gradient(90deg, rgba(15,157,142,0.08), transparent);
     }
 
-    .time-col {
-      width: 98px;
-      flex-shrink: 0;
-      padding: 12px 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-end;
-      border-right: 2px solid var(--border);
-    }
-
-    .time-start {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .time-end {
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .subject-col {
-      flex: 1;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .subject-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-
-    .icon-main   { background: rgba(139,26,42,0.25); }
-    .icon-break  { background: rgba(5,150,105,0.2); }
-    .icon-pray   { background: rgba(245,200,66,0.15); }
-    .icon-go     { background: rgba(5,150,105,0.25); }
-
-    .subject-name {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1.3;
-    }
-    .subject-name.dim { color: var(--text-dim); font-weight: 400; }
-
-    .type-break .subject-name { color: var(--emerald-lt); }
-    .type-pray  .subject-name { color: var(--gold); }
-    .type-go    .subject-name { color: var(--emerald-lt); font-weight: 600; }
-
-    /* Current time indicator */
     .schedule-row.current-class {
-      background: rgba(139,26,42,0.22) !important;
+      background: linear-gradient(90deg, rgba(44,95,138,0.1), rgba(44,95,138,0.05)) !important;
       position: relative;
     }
+
     .schedule-row.current-class::before {
       content: '';
       position: absolute;
       left: 0;
       top: 0;
       bottom: 0;
-      width: 3px;
-      background: var(--maroon-lt);
+      width: 4px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       border-radius: 0 2px 2px 0;
     }
-    .schedule-row.current-class .subject-name {
-      color: #ff8fa0;
+
+    .time-col {
+      width: 100px;
+      flex-shrink: 0;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      border-right: 1px solid var(--border);
     }
 
-    /* ─── BOTTOM NAV ─── */
+    .time-start {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .time-end {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      margin-top: 2px;
+    }
+
+    .subject-col {
+      flex: 1;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .subject-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .icon-main {
+      background: var(--primary-soft);
+    }
+
+    .icon-break {
+      background: var(--accent-soft);
+    }
+
+    .icon-pray {
+      background: var(--secondary-soft);
+    }
+
+    .icon-go {
+      background: var(--accent-soft);
+    }
+
+    .subject-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .subject-name.dim {
+      color: var(--text-muted);
+    }
+
+    .type-break .subject-name {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .type-pray .subject-name {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    .type-go .subject-name {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* BOTTOM NAV - Modern */
     .bottom-nav {
       position: fixed;
       bottom: 0;
-      left: 0; right: 0;
-      z-index: 100;
-      background: rgba(26,5,9,0.92);
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.95);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: center;
       gap: 0;
       padding-bottom: env(safe-area-inset-bottom);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
     }
 
     .nav-item {
@@ -326,387 +514,402 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
+      gap: 4px;
       padding: 10px 8px;
       cursor: pointer;
-      color: var(--text-dim);
-      font-size: 0.65rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      transition: color 0.2s;
-    }
-    .nav-item.active { color: var(--maroon-lt); }
-    .nav-item svg { width: 22px; height: 22px; }
-
-    /* ─── CLOCK ─── */
-    .live-clock {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .clock-time {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 700;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--gold), var(--maroon-lt));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .clock-info {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      margin-top: 4px;
-    }
-    .current-subject-pill {
-      display: inline-block;
-      margin-top: 10px;
-      background: linear-gradient(135deg, var(--maroon), var(--maroon-lt));
-      color: white;
-      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-size: 0.7rem;
       font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
-      box-shadow: 0 4px 16px rgba(107,15,26,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
     }
 
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .schedule-card {
-      animation: fadeIn 0.3s ease forwards;
+    .nav-item.active {
+      color: var(--primary);
     }
 
-    /* ─── INSTALL PROMPT ─── */
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s;
+    }
+
+    .nav-item:hover svg {
+      transform: translateY(-2px);
+    }
+
+    /* INSTALL BANNER */
     .install-banner {
       display: none;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, var(--emerald-dk), var(--emerald));
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       border-radius: var(--radius);
-      padding: 14px 16px;
+      padding: 14px 18px;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 4px 20px rgba(5,150,105,0.35);
-    }
-    .install-banner.show { display: flex; }
-    .install-banner p {
-      flex: 1;
-      font-size: 0.83rem;
-      font-weight: 500;
-      color: white;
-    }
-    .install-btn {
-      background: white;
-      color: var(--emerald-dk);
-      border: none;
-      border-radius: 10px;
-      padding: 7px 14px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
+      box-shadow: var(--shadow);
     }
 
-    /* Scrollbar for desktop */
-    @media (min-width: 480px) {
-      main { padding-left: 20px; padding-right: 20px; }
+    .install-banner.show {
+      display: flex;
+    }
+
+    .install-banner p {
+      flex: 1;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .install-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      border-radius: 30px;
+      padding: 8px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .install-btn:hover {
+      transform: scale(1.02);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .schedule-card {
+      animation: fadeIn 0.35s ease forwards;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">
-      GiT
-      <span>Jadwal Sekolah</span>
+<!-- SPLASH SCREEN -->
+<div class="splash-screen" id="splashScreen">
+  <div class="splash-content">
+    <div class="splash-logo">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="56" height="56" rx="14" fill="white" fill-opacity="0.2"/>
+        <path d="M28 14L33 23L28 29L23 23Z" fill="white" opacity="0.9"/>
+        <rect x="25" y="26" width="6" height="14" rx="2" fill="white" opacity="0.9"/>
+        <circle cx="28" cy="36" r="2.5" fill="white"/>
+      </svg>
     </div>
-    <div class="today-badge" id="todayBadge">Hari ini</div>
+    <div class="splash-title">GiT</div>
+    <div class="splash-subtitle">Jadwal Sekolah</div>
+    <div class="splash-loader"></div>
   </div>
-</header>
+</div>
 
-<main>
-  <!-- Live clock -->
-  <div class="live-clock">
-    <div class="clock-time" id="clockTime">00:00</div>
-    <div class="clock-info" id="clockDate">—</div>
-    <div id="currentPill" style="min-height:32px"></div>
-  </div>
+<!-- MAIN APP CONTENT -->
+<div class="app-content" id="appContent">
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        GiT
+        <span>Jadwal Sekolah</span>
+      </div>
+      <div class="today-badge" id="todayBadge">Hari ini</div>
+    </div>
+  </header>
 
-  <!-- Install banner -->
-  <div class="install-banner" id="installBanner">
-    <p>📲 Install GiT ke layar utama!</p>
-    <button class="install-btn" id="installBtn">Install</button>
-  </div>
+  <main>
+    <div class="live-clock">
+      <div class="clock-time" id="clockTime">--:--</div>
+      <div class="clock-info" id="clockDate">Memuat...</div>
+      <div id="currentPill" style="min-height: 40px"></div>
+    </div>
 
-  <!-- Day tabs -->
-  <div class="day-tabs" id="dayTabs"></div>
+    <div class="install-banner" id="installBanner">
+      <p>📱 Install GiT ke layar utama</p>
+      <button class="install-btn" id="installBtn">Install</button>
+    </div>
 
-  <!-- Schedule display -->
-  <div id="scheduleDisplay"></div>
-</main>
+    <div class="day-tabs" id="dayTabs"></div>
+    <div id="scheduleDisplay"></div>
+  </main>
 
-<nav class="bottom-nav">
-  <div class="nav-item active" onclick="switchView('schedule')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-    </svg>
-    Jadwal
-  </div>
-  <div class="nav-item" onclick="switchView('today')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-    </svg>
-    Hari Ini
-  </div>
-</nav>
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchView('schedule')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      Jadwal
+    </div>
+    <div class="nav-item" onclick="switchView('today')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      Hari Ini
+    </div>
+  </nav>
+</div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────
-const DAYS = [
-  {
-    name: 'Senin', emoji: '🌸', short: 'Sen',
-    schedule: [
-      { time: '06.45', end: '07.25', subject: 'Ceremony + Public Speaking', type: 'ceremony', icon: '🎤' },
-      { time: '07.30', end: '09.30', subject: 'Kreatif Inovasi & Kewirausahaan', type: 'main', icon: '💡' },
-      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
-      { time: '09.50', end: '10.30', subject: 'Kreatif Inovasi & Kewirausahaan', type: 'main', icon: '💡' },
-      { time: '10.30', end: '11.50', subject: 'Bahasa Inggris', type: 'main', icon: '🗣️' },
-      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '13.00', end: '14.20', subject: 'PPKn', type: 'main', icon: '🇮🇩' },
-      { time: '14.20', end: '15.40', subject: 'PJOK', type: 'main', icon: '⚽' },
-      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
-    ]
-  },
-  {
-    name: 'Selasa', emoji: '💐', short: 'Sel',
-    schedule: [
-      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
-      { time: '07.30', end: '09.30', subject: 'Pem. Teks, Grafis & MM', type: 'main', icon: '🎨' },
-      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
-      { time: '09.50', end: '11.50', subject: 'Pem. Teks, Grafis & MM', type: 'main', icon: '🎨' },
-      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '13.00', end: '14.20', subject: 'Basis Data', type: 'main', icon: '🗄️' },
-      { time: '14.20', end: '15.00', subject: 'Bahasa Sunda', type: 'main', icon: '🌿' },
-      { time: '15.00', end: '15.40', subject: 'BK', type: 'main', icon: '🧠' },
-      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
-    ]
-  },
-  {
-    name: 'Rabu', emoji: '🌱', short: 'Rab',
-    schedule: [
-      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
-      { time: '07.30', end: '08.50', subject: 'Sejarah', type: 'main', icon: '📜' },
-      { time: '08.50', end: '09.30', subject: "Qiro'atul Qur'an", type: 'pray', icon: '📗' },
-      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
-      { time: '09.50', end: '10.30', subject: 'PAI', type: 'main', icon: '☪️' },
-      { time: '10.30', end: '11.50', subject: 'Pem. Perangkat Bergerak', type: 'main', icon: '📱' },
-      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '13.00', end: '15.40', subject: 'Pem. Perangkat Bergerak', type: 'main', icon: '📱' },
-      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
-    ]
-  },
-  {
-    name: 'Kamis', emoji: '🪴', short: 'Kam',
-    schedule: [
-      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
-      { time: '07.30', end: '08.50', subject: 'Bahasa Indonesia', type: 'main', icon: '📝' },
-      { time: '08.50', end: '09.30', subject: 'PAI', type: 'main', icon: '☪️' },
-      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
-      { time: '09.50', end: '10.30', subject: 'PAI', type: 'main', icon: '☪️' },
-      { time: '10.30', end: '11.50', subject: 'Pem. Web & Perangkat Bergerak', type: 'main', icon: '🌐' },
-      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '13.00', end: '15.40', subject: 'Pem. Web & Perangkat Bergerak', type: 'main', icon: '🌐' },
-      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
-    ]
-  },
-  {
-    name: 'Jumat', emoji: '💐', short: "Jum'at",
-    schedule: [
-      { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
-      { time: '07.30', end: '09.30', subject: 'Matematika', type: 'main', icon: '📐' },
-      { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
-      { time: '09.50', end: '10.30', subject: 'Bahasa Indonesia', type: 'main', icon: '📝' },
-      { time: '10.30', end: '11.50', subject: 'Game Developer', type: 'main', icon: '🎮' },
-      { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '13.00', end: '14.20', subject: 'Game Developer', type: 'main', icon: '🎮' },
-      { time: '14.20', end: '15.40', subject: 'Bahasa Inggris', type: 'main', icon: '🗣️' },
-      { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
-      { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
-    ]
+  // SCHEDULE DATA
+  const DAYS = [
+    {
+      name: 'Senin', emoji: '📚', short: 'Sen',
+      schedule: [
+        { time: '06.45', end: '07.25', subject: 'Ceremony + Public Speaking', type: 'ceremony', icon: '🎤' },
+        { time: '07.30', end: '09.30', subject: 'Kreatif Inovasi & Kewirausahaan', type: 'main', icon: '💡' },
+        { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.50', end: '10.30', subject: 'Kreatif Inovasi & Kewirausahaan', type: 'main', icon: '💡' },
+        { time: '10.30', end: '11.50', subject: 'Bahasa Inggris', type: 'main', icon: '🗣️' },
+        { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '14.20', subject: 'PPKn', type: 'main', icon: '🇮🇩' },
+        { time: '14.20', end: '15.40', subject: 'PJOK', type: 'main', icon: '⚽' },
+        { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+      ]
+    },
+    {
+      name: 'Selasa', emoji: '📖', short: 'Sel',
+      schedule: [
+        { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '09.30', subject: 'Pem. Teks, Grafis & MM', type: 'main', icon: '🎨' },
+        { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.50', end: '11.50', subject: 'Pem. Teks, Grafis & MM', type: 'main', icon: '🎨' },
+        { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '14.20', subject: 'Basis Data', type: 'main', icon: '🗄️' },
+        { time: '14.20', end: '15.00', subject: 'Bahasa Sunda', type: 'main', icon: '🌿' },
+        { time: '15.00', end: '15.40', subject: 'BK', type: 'main', icon: '🧠' },
+        { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+      ]
+    },
+    {
+      name: 'Rabu', emoji: '🌿', short: 'Rab',
+      schedule: [
+        { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '08.50', subject: 'Sejarah', type: 'main', icon: '📜' },
+        { time: '08.50', end: '09.30', subject: "Qiro'atul Qur'an", type: 'pray', icon: '📗' },
+        { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.50', end: '10.30', subject: 'PAI', type: 'main', icon: '☪️' },
+        { time: '10.30', end: '11.50', subject: 'Pem. Perangkat Bergerak', type: 'main', icon: '📱' },
+        { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '15.40', subject: 'Pem. Perangkat Bergerak', type: 'main', icon: '📱' },
+        { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+      ]
+    },
+    {
+      name: 'Kamis', emoji: '🌟', short: 'Kam',
+      schedule: [
+        { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '08.50', subject: 'Bahasa Indonesia', type: 'main', icon: '📝' },
+        { time: '08.50', end: '09.30', subject: 'PAI', type: 'main', icon: '☪️' },
+        { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.50', end: '10.30', subject: 'PAI', type: 'main', icon: '☪️' },
+        { time: '10.30', end: '11.50', subject: 'Pem. Web & Perangkat Bergerak', type: 'main', icon: '🌐' },
+        { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '15.40', subject: 'Pem. Web & Perangkat Bergerak', type: 'main', icon: '🌐' },
+        { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+      ]
+    },
+    {
+      name: 'Jumat', emoji: '✨', short: "Jum",
+      schedule: [
+        { time: '06.45', end: '07.25', subject: 'Dumuba', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '09.30', subject: 'Matematika', type: 'main', icon: '📐' },
+        { time: '09.30', end: '09.50', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.50', end: '10.30', subject: 'Bahasa Indonesia', type: 'main', icon: '📝' },
+        { time: '10.30', end: '11.50', subject: 'Game Developer', type: 'main', icon: '🎮' },
+        { time: '11.50', end: '13.00', subject: 'Sholat Dzuhur & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '14.20', subject: 'Game Developer', type: 'main', icon: '🎮' },
+        { time: '14.20', end: '15.40', subject: 'Bahasa Inggris', type: 'main', icon: '🗣️' },
+        { time: '15.40', end: '16.10', subject: 'Sholat Ashar & Istirahat', type: 'pray', icon: '🕌' },
+        { time: '16.10', end: null, subject: 'Go To Home 🏠', type: 'go', icon: '🏠' },
+      ]
+    }
+  ];
+
+  const DAY_NAMES_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+
+  let activeDay = 0;
+  let deferredPrompt;
+
+  function parseTime(str) {
+    if (!str) return null;
+    const [h, m] = str.replace('.', ':').split(':').map(Number);
+    return h * 60 + m;
   }
-];
 
-const DAY_NAMES_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-const MONTH_NAMES  = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+  function nowMinutes() {
+    const n = new Date();
+    return n.getHours() * 60 + n.getMinutes();
+  }
 
-let activeDay = 0;
+  function getCurrentSchoolDayIndex() {
+    const d = new Date().getDay();
+    if (d === 0 || d === 6) return 0;
+    return d - 1;
+  }
 
-// ─── UTILS ──────────────────────────────────────────────
-function parseTime(str) {
-  if (!str) return null;
-  const [h, m] = str.replace('.', ':').split(':').map(Number);
-  return h * 60 + m;
-}
+  function renderTabs() {
+    const container = document.getElementById('dayTabs');
+    container.innerHTML = DAYS.map((d, i) => `
+      <div class="day-tab ${i === activeDay ? 'active' : ''}" onclick="setDay(${i})">
+        ${d.emoji} ${d.short}
+      </div>
+    `).join('');
+  }
 
-function nowMinutes() {
-  const n = new Date();
-  return n.getHours() * 60 + n.getMinutes();
-}
+  function renderSchedule() {
+    const day = DAYS[activeDay];
+    const now = nowMinutes();
+    const todayIdx = getCurrentSchoolDayIndex();
+    const isToday = activeDay === todayIdx;
 
-function getCurrentSchoolDayIndex() {
-  const d = new Date().getDay(); // 0=Sun
-  if (d === 0 || d === 6) return 0; // weekend → show Monday
-  return d - 1;
-}
+    const rows = day.schedule.map(item => {
+      const start = parseTime(item.time);
+      const end = parseTime(item.end);
+      const isCurrent = isToday && end !== null && start <= now && now < end;
 
-// ─── RENDER ─────────────────────────────────────────────
-function renderTabs() {
-  const container = document.getElementById('dayTabs');
-  container.innerHTML = DAYS.map((d, i) => `
-    <div class="day-tab ${i === activeDay ? 'active' : ''}" onclick="setDay(${i})">
-      ${d.emoji} ${d.short}
-    </div>
-  `).join('');
-}
+      let rowClass = `schedule-row type-${item.type}`;
+      if (isCurrent) rowClass += ' current-class';
 
-function renderSchedule() {
-  const day = DAYS[activeDay];
-  const now = nowMinutes();
-  const todayIdx = getCurrentSchoolDayIndex();
-  const isToday = activeDay === todayIdx;
+      const timeHTML = item.end
+        ? `<div class="time-start">${item.time}</div><div class="time-end">${item.end}</div>`
+        : `<div class="time-start">${item.time}</div>`;
 
-  const rows = day.schedule.map(item => {
-    const start = parseTime(item.time);
-    const end   = parseTime(item.end);
-    const isCurrent = isToday && end !== null && start <= now && now < end;
-    const isPast    = isToday && end !== null && now >= end;
+      const iconClass = item.type === 'break' ? 'icon-break'
+        : item.type === 'pray' ? 'icon-pray'
+        : item.type === 'go' ? 'icon-go'
+        : 'icon-main';
 
-    let rowClass = `schedule-row type-${item.type}`;
-    if (isCurrent) rowClass += ' current-class';
-
-    const timeHTML = item.end
-      ? `<div class="time-start">${item.time}</div><div class="time-end">${item.end}</div>`
-      : `<div class="time-start">${item.time}</div>`;
-
-    const iconClass = item.type === 'break' ? 'icon-break'
-                    : item.type === 'pray'  ? 'icon-pray'
-                    : item.type === 'go'    ? 'icon-go'
-                    : 'icon-main';
-
-    const nameClass = (isPast && item.type !== 'go') ? 'subject-name dim' : 'subject-name';
-
-    return `
-      <div class="${rowClass}">
-        <div class="time-col">${timeHTML}</div>
-        <div class="subject-col">
-          <div class="subject-icon ${iconClass}">${item.icon}</div>
-          <div class="${nameClass}">${item.subject}</div>
+      return `
+        <div class="${rowClass}">
+          <div class="time-col">${timeHTML}</div>
+          <div class="subject-col">
+            <div class="subject-icon ${iconClass}">${item.icon}</div>
+            <div class="subject-name">${item.subject}</div>
+          </div>
         </div>
+      `;
+    }).join('');
+
+    document.getElementById('scheduleDisplay').innerHTML = `
+      <div class="schedule-card">
+        <div class="schedule-day-header">
+          <span class="day-emoji">${day.emoji}</span>
+          <span class="day-name">${day.name}</span>
+          ${isToday ? '<span class="day-date">Hari ini</span>' : ''}
+        </div>
+        ${rows}
       </div>
     `;
-  }).join('');
+  }
 
-  document.getElementById('scheduleDisplay').innerHTML = `
-    <div class="schedule-card">
-      <div class="schedule-day-header">
-        <span class="day-emoji">${day.emoji}</span>
-        <span class="day-name">${day.name}</span>
-        ${isToday ? '<span class="day-date">Hari ini</span>' : ''}
-      </div>
-      ${rows}
-    </div>
-  `;
-}
+  function setDay(idx) {
+    activeDay = idx;
+    renderTabs();
+    renderSchedule();
+  }
 
-function setDay(idx) {
-  activeDay = idx;
-  renderTabs();
-  renderSchedule();
-}
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
 
-// ─── CLOCK ──────────────────────────────────────────────
-function updateClock() {
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2, '0');
-  const m = String(now.getMinutes()).padStart(2, '0');
-  const s = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clockTime').textContent = `${h}:${m}:${s}`;
 
-  document.getElementById('clockTime').textContent = `${h}:${m}`;
+    const dayName = DAY_NAMES_ID[now.getDay()];
+    const dateStr = `${dayName}, ${now.getDate()} ${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+    document.getElementById('clockDate').textContent = dateStr;
+    document.getElementById('todayBadge').textContent = dayName;
 
-  const dayName = DAY_NAMES_ID[now.getDay()];
-  const dateStr = `${dayName}, ${now.getDate()} ${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
-  document.getElementById('clockDate').textContent = dateStr;
-
-  // Today badge
-  document.getElementById('todayBadge').textContent = dayName;
-
-  // Current subject pill
-  const todayIdx = getCurrentSchoolDayIndex();
-  const todaySched = DAYS[todayIdx].schedule;
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  let currentSubj = null;
-  for (const item of todaySched) {
-    const start = parseTime(item.time);
-    const end   = parseTime(item.end);
-    if (end && start <= nowMin && nowMin < end) {
-      currentSubj = item;
-      break;
+    const todayIdx = getCurrentSchoolDayIndex();
+    const todaySched = DAYS[todayIdx].schedule;
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    let currentSubj = null;
+    for (const item of todaySched) {
+      const start = parseTime(item.time);
+      const end = parseTime(item.end);
+      if (end && start <= nowMin && nowMin < end) {
+        currentSubj = item;
+        break;
+      }
+    }
+    const pill = document.getElementById('currentPill');
+    if (currentSubj && now.getDay() >= 1 && now.getDay() <= 5) {
+      pill.innerHTML = `<div class="current-subject-pill">📌 Sedang: ${currentSubj.subject}</div>`;
+    } else {
+      pill.innerHTML = '';
     }
   }
-  const pill = document.getElementById('currentPill');
-  if (currentSubj && now.getDay() >= 1 && now.getDay() <= 5) {
-    pill.innerHTML = `<div class="current-subject-pill">📍 ${currentSubj.subject}</div>`;
-  } else {
-    pill.innerHTML = '';
+
+  function switchView(view) {
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    if (view === 'today') {
+      setDay(getCurrentSchoolDayIndex());
+      document.querySelectorAll('.nav-item')[1].classList.add('active');
+    } else {
+      document.querySelectorAll('.nav-item')[0].classList.add('active');
+    }
   }
-}
 
-// ─── VIEWS ──────────────────────────────────────────────
-function switchView(view) {
-  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-  if (view === 'today') {
-    setDay(getCurrentSchoolDayIndex());
-    document.querySelectorAll('.nav-item')[1].classList.add('active');
-  } else {
-    document.querySelectorAll('.nav-item')[0].classList.add('active');
+  // HIDE SPLASH SCREEN
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const splash = document.getElementById('splashScreen');
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.style.display = 'none';
+        document.getElementById('appContent').classList.add('visible');
+      }, 600);
+    }, 1500);
+  });
+
+  // INSTALL PROMPT
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBanner').classList.add('show');
+  });
+
+  document.getElementById('installBtn').addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      document.getElementById('installBanner').classList.remove('show');
+    }
+  });
+
+  // INIT
+  activeDay = getCurrentSchoolDayIndex();
+  renderTabs();
+  renderSchedule();
+  updateClock();
+  setInterval(() => {
+    updateClock();
+    renderSchedule();
+  }, 1000);
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(console.log);
   }
-}
-
-// ─── INSTALL PROMPT ──────────────────────────────────────
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBanner').classList.add('show');
-});
-document.getElementById('installBtn').addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    document.getElementById('installBanner').classList.remove('show');
-  }
-});
-
-// ─── INIT ────────────────────────────────────────────────
-activeDay = getCurrentSchoolDayIndex();
-renderTabs();
-renderSchedule();
-updateClock();
-setInterval(() => { updateClock(); renderSchedule(); }, 10000);
-
-// Register service worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
 </script>
 </body>
 </html>
