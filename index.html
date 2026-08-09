@@ -2,61 +2,85 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Kalender PWA</title>
-  <meta name="description" content="Kalender pribadi dengan notifikasi, event, dan tampilan elegan" />
-  <meta name="theme-color" content="#0f0f1a" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e3a5f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Kalender" />
+  <meta name="apple-mobile-web-app-title" content="XII RPL 2" />
+  <meta name="description" content="Jadwal Pelajaran XII RPL 2" />
+  <title>XII RPL 2 — Jadwal</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ===== RESET & BASE ===== */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ===== RESET & THEME ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     :root {
-      --bg: #0f0f1a;
-      --surface: rgba(255,255,255,0.05);
-      --surface-hover: rgba(255,255,255,0.10);
-      --border: rgba(255,255,255,0.08);
-      --text: #f0ece4;
-      --text-muted: rgba(240,236,228,0.45);
-      --accent: #e8c97a;
-      --accent-dim: rgba(232,201,122,0.15);
-      --accent2: #7ab8e8;
-      --danger: #e87a7a;
-      --radius: 14px;
-      --radius-sm: 8px;
-      --shadow: 0 8px 40px rgba(0,0,0,0.6);
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body: 'DM Sans', sans-serif;
+      --primary-dark: #1e3a5f;
+      --primary: #2c5f8a;
+      --primary-light: #4a90c4;
+      --primary-soft: #e8f0fe;
 
-      /* event type colors */
-      --c-general: #7ab8e8;
-      --c-birthday: #e87ac0;
-      --c-bill: #e8c97a;
-      --c-holiday: #7ae8a4;
-      --c-meeting: #c07ae8;
-      --c-reminder: #e8937a;
+      --secondary: #e67e22;
+      --secondary-light: #f39c12;
+      --secondary-soft: #fef3e8;
+
+      --accent: #0f9d8e;
+      --accent-light: #2dc4b3;
+      --accent-soft: #e6f6f4;
+
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --surface: #ffffff;
+      --surface-light: #f1f5f9;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+
+      --radius-sm: 12px;
+      --radius: 20px;
+      --radius-lg: 28px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 20px 35px -8px rgba(0, 0, 0, 0.15);
     }
 
-    html, body {
-      height: 100%;
-      font-family: var(--font-body);
-      color: var(--text);
+    body {
+      font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
       background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
       overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
     }
 
-    /* ===== BACKGROUND ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(44, 95, 138, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(15, 157, 142, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== BACKGROUND LAYER (untuk fitur ganti background) ===== */
     #bg-layer {
-      position: fixed; inset: 0; z-index: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
       background: var(--bg);
       transition: background 0.5s ease;
     }
@@ -66,684 +90,1302 @@
       background-attachment: fixed;
     }
     #bg-overlay {
-      position: fixed; inset: 0; z-index: 1;
-      background: rgba(10,10,20,0.72);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: rgba(10, 10, 20, 0.10);
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+      pointer-events: none;
+    }
+
+    /* ===== SPLASH SCREEN ===== */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--accent) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 1;
+    }
+    .splash-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .splash-content {
+      text-align: center;
+      animation: splashScale 0.6s ease-out;
+    }
+    @keyframes splashScale {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    .splash-logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      animation: logoFloat 2s ease-in-out infinite;
+      font-size: 3rem;
+    }
+    @keyframes logoFloat {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+    .splash-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .splash-subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .splash-loader {
+      width: 32px;
+      height: 32px;
+      margin: 30px auto 0;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .app-content {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      position: relative;
+      z-index: 2;
+    }
+    .app-content.visible {
+      opacity: 1;
     }
 
     /* ===== NOTIF BANNER ===== */
     .notif-banner {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: var(--accent);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--secondary);
       color: #1a1400;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 12px 16px;
-      font-size: 0.85rem; font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 600;
       animation: slideDown 0.3s ease;
       min-height: 44px;
     }
-    .notif-banner.hidden { display: none; }
-    .notif-banner button { 
-      background: none; border: none; cursor: pointer; 
-      font-size: 1.2rem; padding: 8px;
-      min-width: 44px; min-height: 44px;
+    .notif-banner.hidden {
+      display: none;
     }
-    @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+    .notif-banner button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 8px;
+      min-width: 44px;
+      min-height: 44px;
+      color: inherit;
+    }
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
 
     /* ===== HEADER ===== */
-    .app-header {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 16px;
-      background: rgba(15,15,26,0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      min-height: 60px;
+      padding: 0 16px;
+    }
+    .header-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
       gap: 8px;
     }
-    .header-left, .header-right {
-      display: flex; align-items: center; gap: 4px;
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
     }
-    .header-left { flex: 1; min-width: 0; }
-    .header-right { flex-shrink: 0; }
-
-    .month-title {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 4vw, 1.5rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      min-width: 120px;
-      text-align: center;
+    .logo span {
+      font-size: 0.45rem;
+      font-weight: 500;
+      -webkit-text-fill-color: var(--text-light);
+      display: block;
+      letter-spacing: 0.5px;
+      margin-top: 1px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .today-badge {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
     .icon-btn {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); border-radius: var(--radius-sm);
-      width: 40px; height: 40px; min-width: 40px;
-      cursor: pointer;
-      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    .icon-btn:active { transform: scale(0.92); }
-    .icon-btn:hover { background: var(--surface-hover); border-color: var(--accent); color: var(--accent); }
-
-    .today-btn, .add-event-btn {
-      background: var(--accent-dim); border: 1px solid var(--accent);
-      color: var(--accent); border-radius: var(--radius-sm);
-      padding: 6px 12px; cursor: pointer; font-size: 0.8rem;
-      font-family: var(--font-body); font-weight: 600;
-      transition: all 0.2s; white-space: nowrap;
-      min-height: 40px;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    .today-btn:active, .add-event-btn:active { transform: scale(0.96); }
-    .today-btn:hover, .add-event-btn:hover { background: var(--accent); color: #1a1400; }
-
-    /* ===== TODAY STRIP ===== */
-    .today-strip {
-      position: relative; z-index: 10;
-      background: rgba(232,201,122,0.08);
-      border-bottom: 1px solid rgba(232,201,122,0.2);
-      padding: 8px 12px;
-      display: flex; align-items: center; gap: 8px;
-      flex-wrap: wrap;
-    }
-    .today-strip.hidden { display: none; }
-    .today-strip-label { 
-      font-size: 0.75rem; font-weight: 600; color: var(--accent); 
-      white-space: nowrap;
-    }
-    .today-events-list { 
-      display: flex; gap: 6px; flex-wrap: wrap; 
-      flex: 1;
-    }
-    .today-chip {
-      font-size: 0.7rem; padding: 3px 8px;
-      border-radius: 20px; font-weight: 500;
-      background: var(--surface); border: 1px solid var(--border);
-      white-space: nowrap;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* ===== CALENDAR MAIN ===== */
-    .calendar-main {
-      position: relative; z-index: 10;
-      padding: 0 8px 16px;
-      max-width: 1400px; margin: 0 auto;
-    }
-    .weekday-labels {
-      display: grid; grid-template-columns: repeat(7, 1fr);
-      padding: 8px 0 4px;
-      text-align: center;
-    }
-    .weekday-labels span {
-      font-size: clamp(0.6rem, 1.5vw, 0.72rem);
-      font-weight: 600; letter-spacing: 0.08em;
-      color: var(--text-muted); text-transform: uppercase;
-    }
-    .weekday-labels span:first-child { color: var(--danger); opacity: 0.7; }
-    .weekday-labels span:last-child { color: var(--accent2); opacity: 0.7; }
-
-    .calendar-grid {
-      display: grid; grid-template-columns: repeat(7, 1fr);
-      gap: 3px;
-    }
-
-    /* ===== DAY CELL ===== */
-    .day-cell {
-      background: var(--surface);
+      background: var(--surface-light);
       border: 1px solid var(--border);
+      color: var(--text-light);
       border-radius: var(--radius-sm);
-      min-height: 80px;
-      padding: 4px;
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
       cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
       touch-action: manipulation;
+      user-select: none;
     }
-    .day-cell:active { transform: scale(0.97); }
-    .day-cell:hover { background: var(--surface-hover); border-color: rgba(255,255,255,0.18); }
-    .day-cell.other-month { opacity: 0.25; }
-    .day-cell.today {
-      border-color: var(--accent);
-      background: var(--accent-dim);
+    .icon-btn:active {
+      transform: scale(0.92);
     }
-    .day-cell.today .day-num {
-      background: var(--accent);
-      color: #1a1400;
-      border-radius: 50%;
-      width: 24px; height: 24px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700;
+    .icon-btn:hover {
+      background: var(--primary-soft);
+      border-color: var(--primary-light);
+      color: var(--primary);
     }
-    .day-cell.sunday .day-num { color: var(--danger); }
-    .day-cell.saturday .day-num { color: var(--accent2); }
 
-    .day-num {
-      font-size: clamp(0.7rem, 1.8vw, 0.82rem);
-      font-weight: 600;
-      margin-bottom: 2px; line-height: 1;
+    /* ===== MAIN ===== */
+    main {
+      position: relative;
+      z-index: 2;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px 16px 100px;
+    }
+
+    /* ===== LIVE CLOCK ===== */
+    .live-clock {
+      text-align: center;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--primary-soft), var(--accent-soft));
+      border-radius: var(--radius-lg);
+      padding: 18px 16px;
+      border: 1px solid rgba(44, 95, 138, 0.1);
+    }
+    .clock-time {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+    .clock-info {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .current-subject-pill {
       display: inline-block;
+      margin-top: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 16px;
+      border-radius: 30px;
+      box-shadow: var(--shadow-sm);
     }
 
-    .event-dot-list { 
-      display: flex; 
-      flex-direction: column; 
-      gap: 1px;
-      overflow: hidden;
+    /* ===== INSTALL BANNER ===== */
+    .install-banner {
+      display: none;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow);
     }
-    .event-dot {
-      font-size: clamp(0.55rem, 1.2vw, 0.68rem);
-      padding: 1px 4px;
-      border-radius: 3px; 
+    .install-banner.show {
+      display: flex;
+    }
+    .install-banner p {
+      flex: 1;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+    }
+    .install-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      border-radius: 30px;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .install-btn:hover {
+      transform: scale(1.02);
+    }
+
+    /* ===== DAY TABS ===== */
+    .day-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 4px 0;
+    }
+    .day-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    .day-tab {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 40px;
+      background: var(--surface);
+      color: var(--text-light);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
       white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis;
-      font-weight: 500; line-height: 1.3;
-      border-left: 2px solid;
-      min-height: 16px;
+      border: 1px solid var(--border);
     }
-    .event-dot.general   { color: var(--c-general); border-color: var(--c-general); background: rgba(122,184,232,0.12); }
-    .event-dot.birthday  { color: var(--c-birthday); border-color: var(--c-birthday); background: rgba(232,122,192,0.12); }
-    .event-dot.bill      { color: var(--c-bill); border-color: var(--c-bill); background: rgba(232,201,122,0.12); }
-    .event-dot.holiday   { color: var(--c-holiday); border-color: var(--c-holiday); background: rgba(122,232,164,0.12); }
-    .event-dot.meeting   { color: var(--c-meeting); border-color: var(--c-meeting); background: rgba(192,122,232,0.12); }
-    .event-dot.reminder  { color: var(--c-reminder); border-color: var(--c-reminder); background: rgba(232,147,122,0.12); }
+    .day-tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-color: transparent;
+      color: white;
+      box-shadow: var(--shadow);
+      transform: scale(1.02);
+    }
+    .day-tab:hover:not(.active) {
+      background: var(--surface-light);
+      border-color: var(--primary-light);
+      color: var(--primary);
+    }
 
-    .more-events {
-      font-size: clamp(0.55rem, 1.2vw, 0.65rem); 
-      color: var(--text-muted); 
+    /* ===== SCHEDULE CARD ===== */
+    .schedule-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--border);
+    }
+    .schedule-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .schedule-day-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .schedule-day-header .day-emoji {
+      font-size: 1.6rem;
+    }
+    .schedule-day-header .day-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+    .schedule-day-header .day-date {
+      margin-left: auto;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* ===== SCHEDULE ROWS ===== */
+    .schedule-row {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+    .schedule-row:hover {
+      background: var(--surface-light);
+    }
+    .schedule-row.type-break {
+      background: var(--accent-soft);
+    }
+    .schedule-row.type-pray {
+      background: var(--secondary-soft);
+    }
+    .schedule-row.type-go {
+      background: linear-gradient(90deg, rgba(15, 157, 142, 0.08), transparent);
+    }
+    .schedule-row.type-ceremony {
+      background: rgba(148, 163, 184, 0.08);
+    }
+    .schedule-row.current-class {
+      background: linear-gradient(90deg, rgba(44, 95, 138, 0.10), rgba(44, 95, 138, 0.05)) !important;
+      position: relative;
+    }
+    .schedule-row.current-class::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 0 2px 2px 0;
+    }
+
+    .time-col {
+      width: 90px;
+      flex-shrink: 0;
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      border-right: 1px solid var(--border);
+    }
+    .time-start {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .time-end {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
       margin-top: 1px;
     }
 
-    /* ===== MODALS ===== */
+    .subject-col {
+      flex: 1;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .subject-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .icon-main {
+      background: var(--primary-soft);
+    }
+    .icon-break {
+      background: var(--accent-soft);
+    }
+    .icon-pray {
+      background: var(--secondary-soft);
+    }
+    .icon-go {
+      background: var(--accent-soft);
+    }
+    .icon-ceremony {
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .subject-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+      word-break: break-word;
+    }
+    .subject-name.dim {
+      color: var(--text-muted);
+    }
+    .type-break .subject-name {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .type-pray .subject-name {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    .type-go .subject-name {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .type-ceremony .subject-name {
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    /* ===== BOTTOM NAV ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      padding-bottom: env(safe-area-inset-bottom);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+      z-index: 200;
+    }
+    .nav-item {
+      flex: 1;
+      max-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 8px 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      background: transparent;
+      border: none;
+    }
+    .nav-item.active {
+      color: var(--primary);
+    }
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s;
+    }
+    .nav-item:hover svg {
+      transform: translateY(-2px);
+    }
+
+    /* ===== MODAL BACKGROUND ===== */
     .modal-backdrop {
-      position: fixed; inset: 0; z-index: 500;
-      background: rgba(0,0,0,0.65);
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 16px;
       animation: fadeIn 0.2s ease;
     }
-    .modal-backdrop.hidden { display: none; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .modal {
-      background: #181828;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      width: 100%; max-width: 480px;
-      box-shadow: var(--shadow);
-      animation: slideUp 0.25s ease;
-      max-height: 90vh; overflow-y: auto;
+    .modal-backdrop.hidden {
+      display: none;
     }
-    .modal-sm { max-width: 380px; }
-    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .modal {
+      background: #ffffff;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.25s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
     .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 16px 20px 12px;
       border-bottom: 1px solid var(--border);
     }
     .modal-header h2 {
-      font-family: var(--font-display);
-      font-size: clamp(1.1rem, 3vw, 1.25rem);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem;
       font-weight: 700;
+      color: var(--text);
     }
     .modal-body {
       padding: 16px 20px;
-      display: flex; flex-direction: column; gap: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
     .modal-body label {
-      display: flex; flex-direction: column; gap: 4px;
-      font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
-      letter-spacing: 0.04em; text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
-    .modal-body input, .modal-body select, .modal-body textarea {
-      background: var(--surface);
+    .modal-body input {
+      background: var(--surface-light);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       color: var(--text);
       padding: 10px 12px;
       font-size: 0.9rem;
-      font-family: var(--font-body);
+      font-family: 'Inter', sans-serif;
       width: 100%;
       transition: border-color 0.2s;
-      appearance: none;
-      -webkit-appearance: none;
     }
-    .modal-body input:focus, .modal-body select:focus, .modal-body textarea:focus {
-      outline: none; border-color: var(--accent);
+    .modal-body input:focus {
+      outline: none;
+      border-color: var(--primary);
     }
-    .modal-body select option { background: #181828; }
-    .modal-body textarea { resize: vertical; }
-
     .modal-footer {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
       padding: 12px 20px 16px;
       border-top: 1px solid var(--border);
       gap: 8px;
     }
-    .modal-footer-right { display: flex; gap: 8px; flex-wrap: wrap; }
-
     .btn-primary {
-      background: var(--accent); color: #1a1400;
-      border: none; border-radius: var(--radius-sm);
-      padding: 10px 20px; font-weight: 700; font-size: 0.85rem;
-      cursor: pointer; font-family: var(--font-body);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
       transition: all 0.2s;
-      min-height: 44px;
-      touch-action: manipulation;
+      min-height: 40px;
     }
-    .btn-primary:active { transform: scale(0.96); }
-    .btn-primary:hover { background: #f0d990; }
-
+    .btn-primary:active {
+      transform: scale(0.96);
+    }
+    .btn-primary:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-1px);
+    }
     .btn-secondary {
-      background: var(--surface); color: var(--text);
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      padding: 10px 20px; font-weight: 500; font-size: 0.85rem;
-      cursor: pointer; font-family: var(--font-body);
+      background: var(--surface-light);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 20px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
       transition: all 0.2s;
-      min-height: 44px;
-      touch-action: manipulation;
+      min-height: 40px;
     }
-    .btn-secondary:active { transform: scale(0.96); }
-    .btn-secondary:hover { background: var(--surface-hover); }
-
+    .btn-secondary:active {
+      transform: scale(0.96);
+    }
+    .btn-secondary:hover {
+      background: var(--border);
+    }
     .btn-danger {
-      background: rgba(232,122,122,0.12); color: var(--danger);
-      border: 1px solid var(--danger); border-radius: var(--radius-sm);
-      padding: 10px 20px; font-weight: 500; font-size: 0.85rem;
-      cursor: pointer; font-family: var(--font-body);
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+      border: 1px solid #e74c3c;
+      border-radius: var(--radius-sm);
+      padding: 10px 20px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
       transition: all 0.2s;
-      min-height: 44px;
-      touch-action: manipulation;
+      min-height: 40px;
     }
-    .btn-danger:active { transform: scale(0.96); }
-    .btn-danger:hover { background: var(--danger); color: white; }
-    .btn-danger.hidden { display: none; }
-    .full-width { width: 100%; margin-top: 4px; }
+    .btn-danger:active {
+      transform: scale(0.96);
+    }
+    .btn-danger:hover {
+      background: #e74c3c;
+      color: white;
+    }
+    .btn-danger.hidden {
+      display: none;
+    }
+    .full-width {
+      width: 100%;
+      margin-top: 4px;
+    }
 
     /* ===== GRADIENT PICKER ===== */
-    .gradient-picker { display: flex; gap: 8px; flex-wrap: wrap; }
-    .gradient-swatch {
-      width: 40px; height: 40px; border-radius: var(--radius-sm);
-      cursor: pointer; border: 2px solid transparent;
-      transition: all 0.2s;
-      min-width: 40px;
-      touch-action: manipulation;
+    .gradient-picker {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-    .gradient-swatch:active { transform: scale(0.92); }
-    .gradient-swatch:hover, .gradient-swatch.selected {
-      border-color: var(--accent);
+    .gradient-swatch {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      min-width: 38px;
+    }
+    .gradient-swatch:active {
+      transform: scale(0.92);
+    }
+    .gradient-swatch:hover,
+    .gradient-swatch.selected {
+      border-color: var(--primary);
       transform: scale(1.05);
     }
 
-    /* ===== DAY PANEL ===== */
-    .day-panel {
-      position: fixed; right: 0; top: 0; bottom: 0;
-      width: min(90vw, 320px);
-      z-index: 200;
-      background: #12121f;
-      border-left: 1px solid var(--border);
-      box-shadow: -8px 0 40px rgba(0,0,0,0.5);
-      display: flex; flex-direction: column;
-      animation: slideInRight 0.25s ease;
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .day-panel.hidden { display: none; }
-    @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
-
-    .day-panel-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px; border-bottom: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-    }
-    .day-panel-header h3 {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 2.5vw, 1.1rem);
-    }
-    .day-panel-events { flex: 1; overflow-y: auto; padding: 10px; }
-    .day-event-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 10px;
-      margin-bottom: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-left: 3px solid;
-      touch-action: manipulation;
-    }
-    .day-event-card:active { transform: scale(0.98); }
-    .day-event-card:hover { background: var(--surface-hover); }
-    .day-event-card.general  { border-left-color: var(--c-general); }
-    .day-event-card.birthday { border-left-color: var(--c-birthday); }
-    .day-event-card.bill     { border-left-color: var(--c-bill); }
-    .day-event-card.holiday  { border-left-color: var(--c-holiday); }
-    .day-event-card.meeting  { border-left-color: var(--c-meeting); }
-    .day-event-card.reminder { border-left-color: var(--c-reminder); }
-
-    .day-event-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 2px; }
-    .day-event-meta  { font-size: 0.7rem; color: var(--text-muted); }
-    .day-event-notes { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-style: italic; }
-    .day-panel-empty { text-align: center; padding: 30px 16px; color: var(--text-muted); font-size: 0.85rem; }
-    .day-panel-add {
-      margin: 10px; width: calc(100% - 20px);
-      justify-content: center;
-      min-height: 44px;
+    .schedule-card {
+      animation: fadeInUp 0.35s ease forwards;
     }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .app-header { padding: 10px 12px; }
-      .month-title { min-width: 100px; }
-      .day-cell { min-height: 70px; padding: 3px; }
-      .modal { max-width: 100%; margin: 0; border-radius: var(--radius) var(--radius) 0 0; }
-      .modal-backdrop { align-items: flex-end; padding: 0; }
-      .today-strip { padding: 6px 10px; }
-    }
-
     @media (max-width: 480px) {
-      .app-header { 
-        padding: 8px 8px; 
-        flex-wrap: wrap;
-        min-height: 50px;
+      .header-inner {
+        height: 56px;
       }
-      .header-left { gap: 2px; }
-      .header-right { gap: 2px; }
-      .month-title { 
-        font-size: clamp(0.8rem, 3.5vw, 1rem); 
-        min-width: 80px; 
-        max-width: 100px;
+      .logo {
+        font-size: 1.3rem;
       }
-      .icon-btn { 
-        width: 34px; height: 34px; min-width: 34px;
-        font-size: 0.9rem;
+      .logo span {
+        font-size: 0.4rem;
       }
-      .today-btn { display: none; }
-      .add-event-btn { 
-        font-size: 0.7rem; 
-        padding: 4px 8px;
-        min-height: 34px;
+      .icon-btn {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        font-size: 0.85rem;
       }
-      .calendar-main { padding: 0 4px 10px; }
-      .day-cell { 
-        min-height: 52px; 
-        border-radius: 4px;
-        padding: 2px;
+      .today-badge {
+        font-size: 0.55rem;
+        padding: 3px 10px;
       }
-      .day-num { font-size: clamp(0.6rem, 2vw, 0.7rem); }
-      .event-dot { 
-        font-size: clamp(0.45rem, 1.5vw, 0.55rem);
-        padding: 0 2px;
-        min-height: 12px;
-        border-left-width: 1px;
+      .clock-time {
+        font-size: 2.2rem;
       }
-      .event-dot-list { gap: 0px; }
-      .weekday-labels { padding: 4px 0 2px; }
-      .weekday-labels span { font-size: clamp(0.5rem, 1.2vw, 0.6rem); }
-      .calendar-grid { gap: 2px; }
-      .day-panel { width: 100%; }
-      .modal-body { padding: 12px 14px; }
-      .modal-footer { padding: 10px 14px 14px; }
-      .btn-primary, .btn-secondary, .btn-danger { 
-        font-size: 0.75rem; 
-        padding: 8px 14px;
-        min-height: 36px;
+      .live-clock {
+        padding: 14px 12px;
+      }
+      .day-tab {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+      }
+      .time-col {
+        width: 70px;
+        padding: 8px 6px;
+      }
+      .time-start {
+        font-size: 0.7rem;
+      }
+      .time-end {
+        font-size: 0.55rem;
+      }
+      .subject-name {
+        font-size: 0.72rem;
+      }
+      .subject-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.85rem;
+      }
+      .schedule-day-header {
+        padding: 12px 14px;
+      }
+      .schedule-day-header .day-name {
+        font-size: 1rem;
+      }
+      .schedule-day-header .day-emoji {
+        font-size: 1.3rem;
+      }
+      .modal {
+        max-width: 100%;
+        margin: 0;
+        border-radius: var(--radius) var(--radius) 0 0;
+      }
+      .modal-backdrop {
+        align-items: flex-end;
+        padding: 0;
       }
     }
 
-    @media (max-width: 360px) {
-      .month-title { 
-        font-size: 0.7rem; 
-        min-width: 60px;
-        max-width: 70px;
+    @media (max-width: 380px) {
+      .time-col {
+        width: 60px;
+        padding: 6px 4px;
       }
-      .icon-btn { 
-        width: 30px; height: 30px; min-width: 30px;
-        font-size: 0.8rem;
+      .time-start {
+        font-size: 0.6rem;
       }
-      .day-cell { min-height: 44px; }
+      .subject-name {
+        font-size: 0.65rem;
+      }
+      .subject-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+      }
+      .day-tab {
+        font-size: 0.6rem;
+        padding: 4px 10px;
+      }
+      .clock-time {
+        font-size: 1.8rem;
+      }
     }
 
-    /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
-
-    /* ===== UTILITY ===== */
-    .hidden { display: none !important; }
-
-    /* ===== TOUCH IMPROVEMENTS ===== */
-    @media (hover: none) {
-      .icon-btn:hover { background: var(--surface); border-color: var(--border); color: var(--text); }
-      .today-btn:hover, .add-event-btn:hover { background: var(--accent-dim); color: var(--accent); }
-      .day-cell:hover { background: var(--surface); border-color: var(--border); }
-      .btn-primary:hover { background: var(--accent); }
-      .btn-secondary:hover { background: var(--surface); }
-      .btn-danger:hover { background: rgba(232,122,122,0.12); color: var(--danger); }
-      .day-event-card:hover { background: var(--surface); }
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(44, 95, 138, 0.2);
+      border-radius: 10px;
     }
 
-    /* ===== PREFERS REDUCED MOTION ===== */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
 <body>
-  <!-- Background overlay -->
+
+  <!-- ===== BACKGROUND LAYER ===== -->
   <div id="bg-layer"></div>
   <div id="bg-overlay"></div>
 
-  <!-- Notification banner -->
+  <!-- ===== SPLASH SCREEN ===== -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-content">
+      <div class="splash-logo">📚</div>
+      <div class="splash-title">XII RPL 2</div>
+      <div class="splash-subtitle">Jadwal Pelajaran</div>
+      <div class="splash-loader"></div>
+    </div>
+  </div>
+
+  <!-- ===== NOTIF BANNER ===== -->
   <div id="notif-banner" class="notif-banner hidden">
     <span id="notif-text"></span>
     <button id="notif-close">✕</button>
   </div>
 
-  <!-- Sidebar / Header -->
-  <header class="app-header">
-    <div class="header-left">
-      <button class="icon-btn" id="btn-prev" title="Bulan sebelumnya">‹</button>
-      <h1 class="month-title" id="month-title">Januari 2025</h1>
-      <button class="icon-btn" id="btn-next" title="Bulan berikutnya">›</button>
-      <button class="today-btn" id="btn-today">Hari Ini</button>
-    </div>
-    <div class="header-right">
-      <button class="icon-btn" id="btn-notif" title="Aktifkan notifikasi">🔔</button>
-      <button class="icon-btn" id="btn-bg" title="Ganti background">🖼️</button>
-      <button class="add-event-btn" id="btn-add">+ Event</button>
-    </div>
-  </header>
+  <!-- ===== APP CONTENT ===== -->
+  <div class="app-content" id="appContent">
 
-  <!-- Today's events strip -->
-  <div id="today-strip" class="today-strip hidden">
-    <span class="today-strip-label">📅 Hari Ini:</span>
-    <div id="today-events-list" class="today-events-list"></div>
-  </div>
-
-  <!-- Calendar Grid -->
-  <main class="calendar-main">
-    <div class="weekday-labels">
-      <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span>
-      <span>Kam</span><span>Jum</span><span>Sab</span>
-    </div>
-    <div class="calendar-grid" id="calendar-grid"></div>
-  </main>
-
-  <!-- Modal: Add/Edit Event -->
-  <div class="modal-backdrop hidden" id="event-modal">
-    <div class="modal">
-      <div class="modal-header">
-        <h2 id="modal-title">Tambah Event</h2>
-        <button class="icon-btn modal-close" id="modal-close">✕</button>
-      </div>
-      <div class="modal-body">
-        <label>Judul Event
-          <input type="text" id="ev-title" placeholder="Nama event..." maxlength="60" />
-        </label>
-        <label>Tanggal
-          <input type="date" id="ev-date" />
-        </label>
-        <label>Tipe
-          <select id="ev-type">
-            <option value="general">📌 Umum</option>
-            <option value="birthday">🎂 Ulang Tahun</option>
-            <option value="bill">💸 Tagihan</option>
-            <option value="holiday">🌴 Liburan</option>
-            <option value="meeting">🤝 Meeting</option>
-            <option value="reminder">⏰ Pengingat</option>
-          </select>
-        </label>
-        <label>Pengulangan
-          <select id="ev-repeat">
-            <option value="none">Tidak diulang</option>
-            <option value="monthly">Setiap Bulan</option>
-            <option value="yearly">Setiap Tahun</option>
-          </select>
-        </label>
-        <label>Catatan
-          <textarea id="ev-notes" placeholder="Catatan tambahan..." rows="3"></textarea>
-        </label>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-danger hidden" id="btn-delete">Hapus</button>
-        <div class="modal-footer-right">
-          <button class="btn-secondary" id="btn-cancel">Batal</button>
-          <button class="btn-primary" id="btn-save">Simpan</button>
+    <!-- HEADER -->
+    <header>
+      <div class="header-inner">
+        <div class="logo">
+          XII RPL 2
+          <span>Jadwal Sekolah</span>
+        </div>
+        <div class="header-right">
+          <span class="today-badge" id="todayBadge">Hari ini</span>
+          <button class="icon-btn" id="btn-notif" title="Notifikasi">🔔</button>
+          <button class="icon-btn" id="btn-bg" title="Ganti background">🖼️</button>
         </div>
       </div>
-    </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+      <!-- Live Clock -->
+      <div class="live-clock">
+        <div class="clock-time" id="clockTime">--:--</div>
+        <div class="clock-info" id="clockDate">Memuat...</div>
+        <div id="currentPill" style="min-height: 36px"></div>
+      </div>
+
+      <!-- Install Banner -->
+      <div class="install-banner" id="installBanner">
+        <p>📱 Install ke layar utama</p>
+        <button class="install-btn" id="installBtn">Install</button>
+      </div>
+
+      <!-- Day Tabs -->
+      <div class="day-tabs" id="dayTabs"></div>
+
+      <!-- Schedule Display -->
+      <div id="scheduleDisplay"></div>
+    </main>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" id="navSchedule">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        Jadwal
+      </button>
+      <button class="nav-item" id="navToday">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        Hari Ini
+      </button>
+    </nav>
   </div>
 
-  <!-- Modal: Background picker -->
+  <!-- ===== MODAL BACKGROUND ===== -->
   <div class="modal-backdrop hidden" id="bg-modal">
-    <div class="modal modal-sm">
+    <div class="modal">
       <div class="modal-header">
         <h2>Ganti Background</h2>
-        <button class="icon-btn modal-close" id="bg-modal-close">✕</button>
+        <button class="icon-btn" id="bg-modal-close" style="border:none;background:transparent;">✕</button>
       </div>
       <div class="modal-body">
-        <label>Upload gambar dari HP/PC
+        <label>Upload gambar
           <input type="file" id="bg-file" accept="image/*" />
         </label>
-        <label>Atau masukkan URL gambar
+        <label>Atau URL gambar
           <input type="text" id="bg-url" placeholder="https://..." />
         </label>
         <label>Atau pilih gradien
           <div class="gradient-picker">
-            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#0f0f1a,#1a1a3e)" style="background:linear-gradient(135deg,#0f0f1a,#1a1a3e)"></div>
-            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#0d1b2a,#1b4332)" style="background:linear-gradient(135deg,#0d1b2a,#1b4332)"></div>
-            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#1a0a2e,#3d1a6e)" style="background:linear-gradient(135deg,#1a0a2e,#3d1a6e)"></div>
-            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#0a1628,#c0392b)" style="background:linear-gradient(135deg,#0a1628,#c0392b)"></div>
-            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#1a1200,#3d2b00)" style="background:linear-gradient(135deg,#1a1200,#3d2b00)"></div>
-            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#0f1923,#1e3a5f)" style="background:linear-gradient(135deg,#0f1923,#1e3a5f)"></div>
+            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#1e3a5f,#4a90c4)" style="background:linear-gradient(135deg,#1e3a5f,#4a90c4)"></div>
+            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#0f9d8e,#2dc4b3)" style="background:linear-gradient(135deg,#0f9d8e,#2dc4b3)"></div>
+            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#1e3a5f,#0f9d8e)" style="background:linear-gradient(135deg,#1e3a5f,#0f9d8e)"></div>
+            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#2c3e50,#3498db)" style="background:linear-gradient(135deg,#2c3e50,#3498db)"></div>
+            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#1a1a2e,#16213e)" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"></div>
+            <div class="gradient-swatch" data-gradient="linear-gradient(135deg,#2d1b69,#11998e)" style="background:linear-gradient(135deg,#2d1b69,#11998e)"></div>
           </div>
         </label>
         <button class="btn-secondary full-width" id="bg-reset">Reset ke Default</button>
       </div>
       <div class="modal-footer">
-        <div class="modal-footer-right">
-          <button class="btn-secondary" id="bg-cancel">Batal</button>
-          <button class="btn-primary" id="bg-apply">Terapkan</button>
-        </div>
+        <button class="btn-secondary" id="bg-cancel">Batal</button>
+        <button class="btn-primary" id="bg-apply">Terapkan</button>
       </div>
     </div>
   </div>
 
-  <!-- Day detail panel (click on day) -->
-  <div class="day-panel hidden" id="day-panel">
-    <div class="day-panel-header">
-      <h3 id="day-panel-title"></h3>
-      <button class="icon-btn" id="day-panel-close">✕</button>
-    </div>
-    <div id="day-panel-events" class="day-panel-events"></div>
-    <button class="add-event-btn day-panel-add" id="day-panel-add">+ Tambah Event</button>
-  </div>
-
   <script>
-    // ===== STATE =====
-    let currentDate = new Date();
-    let events = [];
-    let currentEventId = null;
-    let editingDate = null;
+    // ============================================================
+    //  DATA JADWAL XII RPL 2
+    // ============================================================
+    const DAYS_DATA = [{
+      name: 'Senin',
+      emoji: '📚',
+      short: 'Sen',
+      schedule: [
+        { time: '06.45', end: '07.30', subject: 'Upacara & Public Speaking', type: 'ceremony', icon: '🎤' },
+        { time: '07.30', end: '11.50', subject: 'Pemrograman Web', type: 'main', icon: '🌐' },
+        { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '14.20', subject: 'B.Inggris', type: 'main', icon: '🗣️' },
+        { time: '14.20', end: '15.40', subject: 'Pemrograman Perangkat Bergerak', type: 'main', icon: '📱' },
+        { time: '15.40', end: '16.00', subject: 'Salat Asar & pulang', type: 'go', icon: '🏠' },
+      ]
+    }, {
+      name: 'Selasa',
+      emoji: '📖',
+      short: 'Sel',
+      schedule: [
+        { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '11.50', subject: 'Pemrograman Perangkat Bergerak', type: 'main', icon: '📱' },
+        { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '14.20', subject: 'Pemrograman Web', type: 'main', icon: '🌐' },
+        { time: '14.20', end: '15.40', subject: 'B.Jepang', type: 'main', icon: '🗾' },
+        { time: '15.40', end: '16.00', subject: 'Salat Asar & pulang', type: 'go', icon: '🏠' },
+      ]
+    }, {
+      name: 'Rabu',
+      emoji: '🌿',
+      short: 'Rab',
+      schedule: [
+        { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '08.50', subject: 'KIK', type: 'main', icon: '🧠' },
+        { time: '08.50', end: '09.10', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.10', end: '10.30', subject: 'B.Inggris', type: 'main', icon: '🗣️' },
+        { time: '10.30', end: '11.50', subject: 'PAI', type: 'main', icon: '☪️' },
+        { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '15.40', subject: 'Pemrograman Berbasis Teks, Grafis, dan Multimedia',
+          type: 'main', icon: '🎨' },
+        { time: '15.40', end: '16.00', subject: 'Salat Asar & pulang', type: 'go', icon: '🏠' },
+      ]
+    }, {
+      name: 'Kamis',
+      emoji: '🌟',
+      short: 'Kam',
+      schedule: [
+        { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '08.50', subject: 'Basis Data', type: 'main', icon: '🗄️' },
+        { time: '08.50', end: '09.10', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.10', end: '11.50', subject: 'Machine Learning', type: 'main', icon: '🤖' },
+        { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '15.40', subject: 'MTK', type: 'main', icon: '📐' },
+        { time: '15.40', end: '16.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
+        { time: '16.00', end: '16.40', subject: 'Soft Skill', type: 'main', icon: '💡' },
+      ]
+    }, {
+      name: 'Jumat',
+      emoji: '✨',
+      short: 'Jum',
+      schedule: [
+        { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
+        { time: '07.30', end: '08.50', subject: 'KIK', type: 'main', icon: '🧠' },
+        { time: '08.50', end: '09.10', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.10', end: '09.50', subject: 'Bimbingan Karier', type: 'main', icon: '🧭' },
+        { time: '09.50', end: '11.50', subject: 'B.Indo', type: 'main', icon: '📝' },
+        { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
+        { time: '13.00', end: '14.20', subject: 'Pendidikan Pancasila', type: 'main', icon: '🇮🇩' },
+        { time: '14.20', end: '15.00', subject: 'PAI', type: 'main', icon: '☪️' },
+        { time: '15.00', end: '15.40', subject: 'Qirotul Quran', type: 'main', icon: '📗' },
+        { time: '15.40', end: '16.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
+      ]
+    }, {
+      name: 'Sabtu',
+      emoji: '🏁',
+      short: 'Sab',
+      schedule: [
+        { time: '06.45', end: '07.15', subject: 'DuQuBa', type: 'ceremony', icon: '📖' },
+        { time: '07.15', end: '08.25', subject: 'MTK', type: 'main', icon: '📐' },
+        { time: '08.25', end: '09.35', subject: 'B.Inggris', type: 'main', icon: '🗣️' },
+        { time: '09.35', end: '09.55', subject: 'Istirahat', type: 'break', icon: '☕' },
+        { time: '09.55', end: '11.05', subject: 'Bimbingan Karier', type: 'main', icon: '🧭' },
+        { time: '11.05', end: '12.15', subject: 'B.Indo', type: 'main', icon: '📝' },
+        { time: '12.15', end: '13.00', subject: 'Salat zuhur berjamaah & pulang', type: 'go', icon: '🏠' },
+      ]
+    }];
 
-    const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    const DAYS = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const DAY_NAMES_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
 
-    // ===== DOM REFS =====
-    const grid = document.getElementById('calendar-grid');
-    const monthTitle = document.getElementById('month-title');
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
-    const btnToday = document.getElementById('btn-today');
-    const btnAdd = document.getElementById('btn-add');
-    const btnNotif = document.getElementById('btn-notif');
-    const btnBg = document.getElementById('btn-bg');
-    const todayStrip = document.getElementById('today-strip');
-    const todayEventsList = document.getElementById('today-events-list');
+    // ============================================================
+    //  STATE
+    // ============================================================
+    let activeDay = 0;
+    let deferredPrompt = null;
+    let notifTimer = null;
 
-    const eventModal = document.getElementById('event-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const evTitle = document.getElementById('ev-title');
-    const evDate = document.getElementById('ev-date');
-    const evType = document.getElementById('ev-type');
-    const evRepeat = document.getElementById('ev-repeat');
-    const evNotes = document.getElementById('ev-notes');
-    const btnSave = document.getElementById('btn-save');
-    const btnCancel = document.getElementById('btn-cancel');
-    const btnDelete = document.getElementById('btn-delete');
-    const modalClose = document.getElementById('modal-close');
-
-    const bgModal = document.getElementById('bg-modal');
-    const bgFile = document.getElementById('bg-file');
-    const bgUrl = document.getElementById('bg-url');
-    const bgApply = document.getElementById('bg-apply');
-    const bgCancel = document.getElementById('bg-cancel');
-    const bgReset = document.getElementById('bg-reset');
-    const bgModalClose = document.getElementById('bg-modal-close');
-    const gradientSwatches = document.querySelectorAll('.gradient-swatch');
-
-    const dayPanel = document.getElementById('day-panel');
-    const dayPanelTitle = document.getElementById('day-panel-title');
-    const dayPanelEvents = document.getElementById('day-panel-events');
-    const dayPanelClose = document.getElementById('day-panel-close');
-    const dayPanelAdd = document.getElementById('day-panel-add');
-
-    const notifBanner = document.getElementById('notif-banner');
-    const notifText = document.getElementById('notif-text');
-    const notifClose = document.getElementById('notif-close');
-
-    // ===== EVENTS STORAGE =====
-    function loadEvents() {
-      try {
-        const data = localStorage.getItem('events');
-        events = data ? JSON.parse(data) : [];
-      } catch { events = []; }
+    // ============================================================
+    //  HELPERS
+    // ============================================================
+    function parseTime(str) {
+      if (!str) return null;
+      const parts = str.replace('.', ':').split(':');
+      if (parts.length < 2) return null;
+      const h = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      if (isNaN(h) || isNaN(m)) return null;
+      return h * 60 + m;
     }
-    function saveEvents() {
-      localStorage.setItem('events', JSON.stringify(events));
+
+    function nowMinutes() {
+      const n = new Date();
+      return n.getHours() * 60 + n.getMinutes();
     }
 
-    // ===== BACKGROUND STORAGE =====
+    function getCurrentSchoolDayIndex() {
+      const d = new Date().getDay();
+      if (d === 0) return 5; // Minggu -> Sabtu (tidak ada jadwal)
+      return d - 1;
+    }
+
+    function getTodayDateStr() {
+      const now = new Date();
+      const d = now.getDate();
+      const m = MONTH_NAMES[now.getMonth()];
+      const y = now.getFullYear();
+      return `${d} ${m} ${y}`;
+    }
+
+    // ============================================================
+    //  RENDER
+    // ============================================================
+    function renderTabs() {
+      const container = document.getElementById('dayTabs');
+      container.innerHTML = DAYS_DATA.map((d, i) =>
+        `<div class="day-tab ${i === activeDay ? 'active' : ''}" onclick="setDay(${i})">${d.emoji} ${d.short}</div>`
+      ).join('');
+    }
+
+    function renderSchedule() {
+      const day = DAYS_DATA[activeDay];
+      const now = nowMinutes();
+      const todayIdx = getCurrentSchoolDayIndex();
+      const isToday = activeDay === todayIdx;
+
+      // Cek apakah hari ini (index) antara Senin-Jumat
+      const isSchoolDay = todayIdx >= 0 && todayIdx <= 4;
+
+      const rows = day.schedule.map(item => {
+        const start = parseTime(item.time);
+        const end = parseTime(item.end);
+        const isCurrent = isToday && end !== null && start !== null && start <= now && now < end;
+
+        let rowClass = `schedule-row type-${item.type}`;
+        if (isCurrent) rowClass += ' current-class';
+
+        const timeHTML = item.end ?
+          `<div class="time-start">${item.time}</div><div class="time-end">${item.end}</div>` :
+          `<div class="time-start">${item.time}</div>`;
+
+        let iconClass = 'icon-main';
+        if (item.type === 'break') iconClass = 'icon-break';
+        else if (item.type === 'pray') iconClass = 'icon-pray';
+        else if (item.type === 'go') iconClass = 'icon-go';
+        else if (item.type === 'ceremony') iconClass = 'icon-ceremony';
+
+        return `
+            <div class="${rowClass}">
+              <div class="time-col">${timeHTML}</div>
+              <div class="subject-col">
+                <div class="subject-icon ${iconClass}">${item.icon}</div>
+                <div class="subject-name">${item.subject}</div>
+              </div>
+            </div>
+          `;
+      }).join('');
+
+      const dateInfo = isToday ? 'Hari ini' : '';
+      document.getElementById('scheduleDisplay').innerHTML = `
+          <div class="schedule-card">
+            <div class="schedule-day-header">
+              <span class="day-emoji">${day.emoji}</span>
+              <span class="day-name">${day.name}</span>
+              ${dateInfo ? `<span class="day-date">${dateInfo}</span>` : ''}
+            </div>
+            ${rows}
+          </div>
+        `;
+    }
+
+    function setDay(idx) {
+      activeDay = idx;
+      renderTabs();
+      renderSchedule();
+      // Update bottom nav
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('navSchedule').classList.add('active');
+    }
+
+    // ============================================================
+    //  CLOCK & CURRENT CLASS
+    // ============================================================
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+
+      document.getElementById('clockTime').textContent = `${h}:${m}:${s}`;
+
+      const dayName = DAY_NAMES_ID[now.getDay()];
+      const dateStr = `${dayName}, ${now.getDate()} ${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+      document.getElementById('clockDate').textContent = dateStr;
+      document.getElementById('todayBadge').textContent = dayName;
+
+      // Current subject pill
+      const todayIdx = getCurrentSchoolDayIndex();
+      const isSchoolDay = todayIdx >= 0 && todayIdx <= 4;
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+
+      let currentSubj = null;
+      if (isSchoolDay) {
+        const todaySched = DAYS_DATA[todayIdx].schedule;
+        for (const item of todaySched) {
+          const start = parseTime(item.time);
+          const end = parseTime(item.end);
+          if (end && start !== null && start <= nowMin && nowMin < end) {
+            currentSubj = item;
+            break;
+          }
+        }
+      }
+
+      const pill = document.getElementById('currentPill');
+      if (currentSubj && isSchoolDay) {
+        pill.innerHTML = `<div class="current-subject-pill">📌 Sedang: ${currentSubj.subject}</div>`;
+      } else if (isSchoolDay) {
+        // Cek apakah sudah jam pulang
+        const lastItem = DAYS_DATA[todayIdx].schedule[DAYS_DATA[todayIdx].schedule.length - 1];
+        const lastStart = parseTime(lastItem.time);
+        if (lastStart && nowMin >= lastStart) {
+          pill.innerHTML = `<div class="current-subject-pill" style="background:var(--accent);">✅ Selesai belajar!</div>`;
+        } else {
+          pill.innerHTML = `<div class="current-subject-pill" style="background:var(--text-muted);">⏳ Belum mulai</div>`;
+        }
+      } else {
+        pill.innerHTML = `<div class="current-subject-pill" style="background:var(--text-muted);">📅 Libur / Akhir Pekan</div>`;
+      }
+    }
+
+    // ============================================================
+    //  NOTIFICATION
+    // ============================================================
+    function showNotification(msg, type = 'info') {
+      const banner = document.getElementById('notif-banner');
+      const text = document.getElementById('notif-text');
+      text.textContent = msg;
+      banner.classList.remove('hidden');
+      if (type === 'error') {
+        banner.style.background = '#e87a7a';
+        banner.style.color = '#1a0a0a';
+      } else {
+        banner.style.background = 'var(--secondary)';
+        banner.style.color = '#1a1400';
+      }
+      clearTimeout(notifTimer);
+      notifTimer = setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 4000);
+    }
+
+    async function requestNotificationPermission() {
+      if (!('Notification' in window)) {
+        showNotification('Notifikasi tidak didukung di browser ini', 'error');
+        return;
+      }
+      if (Notification.permission === 'granted') {
+        showNotification('Notifikasi sudah diizinkan ✅');
+        return;
+      }
+      if (Notification.permission === 'denied') {
+        showNotification('Notifikasi diblokir. Izinkan di pengaturan browser.', 'error');
+        return;
+      }
+      const result = await Notification.requestPermission();
+      if (result === 'granted') {
+        showNotification('Notifikasi diaktifkan! 🔔');
+        checkTodaySchedule();
+      } else {
+        showNotification('Notifikasi ditolak 😔', 'error');
+      }
+    }
+
+    function checkTodaySchedule() {
+      const todayIdx = getCurrentSchoolDayIndex();
+      if (todayIdx < 0 || todayIdx > 4) return;
+      const day = DAYS_DATA[todayIdx];
+      const items = day.schedule.filter(i => i.type !== 'pray' && i.type !== 'break' && i.type !== 'go' && i.type !==
+        'ceremony');
+      if (items.length > 0 && Notification.permission === 'granted') {
+        const names = items.map(i => i.subject).join(', ');
+        navigator.serviceWorker.ready.then(reg => {
+          reg.showNotification(`📚 ${day.name} — XII RPL 2`, {
+            body: `${items.length} mata pelajaran: ${names}`,
+            icon: '/icons/icon-192.png',
+            badge: '/icons/icon-72.png',
+            vibrate: [200, 100, 200],
+          });
+        });
+      }
+    }
+
+    // ============================================================
+    //  BACKGROUND
+    // ============================================================
     function loadBackground() {
       try {
         const bg = localStorage.getItem('background');
@@ -757,8 +1399,9 @@
             layer.classList.add('has-image');
           }
         }
-      } catch {}
+      } catch (e) {}
     }
+
     function saveBackground(value) {
       localStorage.setItem('background', value);
       const layer = document.getElementById('bg-layer');
@@ -771,350 +1414,21 @@
       }
     }
 
-    // ===== RENDER CALENDAR =====
-    function renderCalendar() {
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth();
-      const today = new Date();
-      today.setHours(0,0,0,0);
-
-      monthTitle.textContent = `${MONTHS[month]} ${year}`;
-
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const daysInPrevMonth = new Date(year, month, 0).getDate();
-
-      grid.innerHTML = '';
-
-      const prevMonth = month === 0 ? 11 : month - 1;
-      const prevYear = month === 0 ? year - 1 : year;
-      for (let i = firstDay - 1; i >= 0; i--) {
-        const day = daysInPrevMonth - i;
-        const dateObj = new Date(prevYear, prevMonth, day);
-        grid.appendChild(createDayCell(day, dateObj, true));
-      }
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dateObj = new Date(year, month, day);
-        const isToday = dateObj.getTime() === today.getTime();
-        grid.appendChild(createDayCell(day, dateObj, false, isToday));
-      }
-
-      const totalCells = firstDay + daysInMonth;
-      const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
-      const nextMonth = month === 11 ? 0 : month + 1;
-      const nextYear = month === 11 ? year + 1 : year;
-      for (let day = 1; day <= remaining; day++) {
-        const dateObj = new Date(nextYear, nextMonth, day);
-        grid.appendChild(createDayCell(day, dateObj, true));
-      }
-
-      updateTodayStrip();
-    }
-
-    function createDayCell(dayNum, dateObj, isOtherMonth, isToday = false) {
-      const cell = document.createElement('div');
-      cell.className = 'day-cell';
-      if (isOtherMonth) cell.classList.add('other-month');
-      if (isToday) cell.classList.add('today');
-
-      const dayOfWeek = dateObj.getDay();
-      if (dayOfWeek === 0) cell.classList.add('sunday');
-      if (dayOfWeek === 6) cell.classList.add('saturday');
-
-      const daySpan = document.createElement('span');
-      daySpan.className = 'day-num';
-      daySpan.textContent = dayNum;
-      cell.appendChild(daySpan);
-
-      const dateStr = dateObj.toISOString().split('T')[0];
-      const dayEvents = events.filter(e => e.date === dateStr);
-      const shown = dayEvents.slice(0, 3);
-
-      if (dayEvents.length > 0) {
-        const dotList = document.createElement('div');
-        dotList.className = 'event-dot-list';
-
-        shown.forEach(ev => {
-          const dot = document.createElement('div');
-          dot.className = `event-dot ${ev.type || 'general'}`;
-          dot.textContent = ev.title;
-          dotList.appendChild(dot);
-        });
-
-        if (dayEvents.length > 3) {
-          const more = document.createElement('div');
-          more.className = 'more-events';
-          more.textContent = `+${dayEvents.length - 3} lagi`;
-          dotList.appendChild(more);
-        }
-
-        cell.appendChild(dotList);
-      }
-
-      cell.dataset.date = dateStr;
-
-      const handleClick = (e) => {
-        e.stopPropagation();
-        openDayPanel(dateStr);
-      };
-      cell.addEventListener('click', handleClick);
-      cell.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        handleClick(e);
-      });
-
-      return cell;
-    }
-
-    // ===== TODAY STRIP =====
-    function updateTodayStrip() {
-      const today = new Date();
-      today.setHours(0,0,0,0);
-      const dateStr = today.toISOString().split('T')[0];
-      const dayEvents = events.filter(e => e.date === dateStr);
-
-      if (dayEvents.length === 0) {
-        todayStrip.classList.add('hidden');
-        return;
-      }
-
-      todayStrip.classList.remove('hidden');
-      todayEventsList.innerHTML = '';
-      dayEvents.forEach(ev => {
-        const chip = document.createElement('span');
-        chip.className = `today-chip ${ev.type || 'general'}`;
-        chip.textContent = ev.title;
-        todayEventsList.appendChild(chip);
-      });
-    }
-
-    // ===== DAY PANEL =====
-    function openDayPanel(dateStr) {
-      const date = new Date(dateStr);
-      const dayName = DAYS[date.getDay()];
-      const day = date.getDate();
-      const month = MONTHS[date.getMonth()];
-      const year = date.getFullYear();
-      dayPanelTitle.textContent = `${dayName}, ${day} ${month} ${year}`;
-
-      const dayEvents = events.filter(e => e.date === dateStr);
-      dayPanelEvents.innerHTML = '';
-
-      if (dayEvents.length === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'day-panel-empty';
-        empty.textContent = 'Tidak ada event hari ini ✨';
-        dayPanelEvents.appendChild(empty);
-      } else {
-        dayEvents.forEach(ev => {
-          const card = document.createElement('div');
-          card.className = `day-event-card ${ev.type || 'general'}`;
-
-          const title = document.createElement('div');
-          title.className = 'day-event-title';
-          title.textContent = ev.title;
-          card.appendChild(title);
-
-          const meta = document.createElement('div');
-          meta.className = 'day-event-meta';
-          const repeatText = ev.repeat && ev.repeat !== 'none' ? `🔄 ${ev.repeat}` : '';
-          meta.textContent = `📌 ${ev.type || 'general'} ${repeatText}`;
-          card.appendChild(meta);
-
-          if (ev.notes) {
-            const notes = document.createElement('div');
-            notes.className = 'day-event-notes';
-            notes.textContent = ev.notes;
-            card.appendChild(notes);
-          }
-
-          card.addEventListener('click', () => {
-            editEvent(ev.id);
-          });
-          card.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            editEvent(ev.id);
-          });
-
-          dayPanelEvents.appendChild(card);
-        });
-      }
-
-      dayPanel.dataset.date = dateStr;
-      dayPanel.classList.remove('hidden');
-    }
-
-    // ===== MODAL: ADD/EDIT =====
-    function openModal(dateStr = null) {
-      eventModal.classList.remove('hidden');
-      if (dateStr) {
-        evDate.value = dateStr;
-        editingDate = dateStr;
-      } else {
-        const today = new Date().toISOString().split('T')[0];
-        evDate.value = today;
-        editingDate = today;
-      }
-      evTitle.focus();
-    }
-
-    function closeModal() {
-      eventModal.classList.add('hidden');
-      currentEventId = null;
-      editingDate = null;
-      evTitle.value = '';
-      evType.value = 'general';
-      evRepeat.value = 'none';
-      evNotes.value = '';
-      btnDelete.classList.add('hidden');
-      modalTitle.textContent = 'Tambah Event';
-    }
-
-    function editEvent(id) {
-      const ev = events.find(e => e.id === id);
-      if (!ev) return;
-      currentEventId = id;
-      evTitle.value = ev.title;
-      evDate.value = ev.date;
-      evType.value = ev.type || 'general';
-      evRepeat.value = ev.repeat || 'none';
-      evNotes.value = ev.notes || '';
-      modalTitle.textContent = 'Edit Event';
-      btnDelete.classList.remove('hidden');
-      editingDate = ev.date;
-      eventModal.classList.remove('hidden');
-      evTitle.focus();
-    }
-
-    function saveEvent() {
-      const title = evTitle.value.trim();
-      if (!title) {
-        showNotification('Masukkan judul event!', 'error');
-        evTitle.focus();
-        return;
-      }
-
-      const date = evDate.value;
-      if (!date) {
-        showNotification('Pilih tanggal!', 'error');
-        return;
-      }
-
-      const type = evType.value;
-      const repeat = evRepeat.value;
-      const notes = evNotes.value.trim();
-
-      if (currentEventId) {
-        const idx = events.findIndex(e => e.id === currentEventId);
-        if (idx !== -1) {
-          events[idx] = { ...events[idx], title, date, type, repeat, notes };
-        }
-      } else {
-        const newEvent = {
-          id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-          title,
-          date,
-          type,
-          repeat,
-          notes
-        };
-        events.push(newEvent);
-      }
-
-      saveEvents();
-      closeModal();
-      renderCalendar();
-
-      const today = new Date().toISOString().split('T')[0];
-      if (date === today) {
-        updateTodayStrip();
-      }
-
-      showNotification('Event tersimpan! ✅');
-    }
-
-    function deleteEvent() {
-      if (!currentEventId) return;
-      if (!confirm('Yakin ingin menghapus event ini?')) return;
-      events = events.filter(e => e.id !== currentEventId);
-      saveEvents();
-      closeModal();
-      renderCalendar();
-      updateTodayStrip();
-      showNotification('Event dihapus 🗑️');
-    }
-
-    // ===== NOTIFICATION =====
-    function showNotification(msg, type = 'info') {
-      notifText.textContent = msg;
-      notifBanner.classList.remove('hidden');
-      if (type === 'error') {
-        notifBanner.style.background = '#e87a7a';
-        notifBanner.style.color = '#1a0a0a';
-      } else {
-        notifBanner.style.background = 'var(--accent)';
-        notifBanner.style.color = '#1a1400';
-      }
-      clearTimeout(window._notifTimer);
-      window._notifTimer = setTimeout(() => {
-        notifBanner.classList.add('hidden');
-      }, 4000);
-    }
-
-    async function requestNotificationPermission() {
-      if (!('Notification' in window)) {
-        showNotification('Notifikasi tidak didukung di browser ini');
-        return;
-      }
-      if (Notification.permission === 'granted') {
-        showNotification('Notifikasi sudah diizinkan ✅');
-        return;
-      }
-      if (Notification.permission === 'denied') {
-        showNotification('Notifikasi diblokir. Izinkan di pengaturan browser.');
-        return;
-      }
-      const result = await Notification.requestPermission();
-      if (result === 'granted') {
-        showNotification('Notifikasi diaktifkan! 🔔');
-        checkTodayEvents();
-      } else {
-        showNotification('Notifikasi ditolak 😔');
-      }
-    }
-
-    function checkTodayEvents() {
-      const today = new Date().toISOString().split('T')[0];
-      const dayEvents = events.filter(e => e.date === today);
-      if (dayEvents.length > 0 && Notification.permission === 'granted') {
-        navigator.serviceWorker.ready.then(reg => {
-          reg.showNotification('📅 Event Hari Ini!', {
-            body: `${dayEvents.length} event: ${dayEvents.map(e => e.title).join(', ')}`,
-            icon: '/icons/icon-192.png',
-            badge: '/icons/icon-72.png',
-            vibrate: [200, 100, 200],
-          });
-        });
-      }
-    }
-
-    // ===== BACKGROUND =====
     function openBgModal() {
-      bgModal.classList.remove('hidden');
-      bgFile.value = '';
-      bgUrl.value = '';
-      gradientSwatches.forEach(s => s.classList.remove('selected'));
+      document.getElementById('bg-modal').classList.remove('hidden');
+      document.getElementById('bg-file').value = '';
+      document.getElementById('bg-url').value = '';
+      document.querySelectorAll('.gradient-swatch').forEach(s => s.classList.remove('selected'));
     }
 
     function closeBgModal() {
-      bgModal.classList.add('hidden');
+      document.getElementById('bg-modal').classList.add('hidden');
     }
 
     function applyBackground() {
-      const file = bgFile.files[0];
-      const url = bgUrl.value.trim();
-      const selectedGradient = document.querySelector('.gradient-swatch.selected');
+      const file = document.getElementById('bg-file').files[0];
+      const url = document.getElementById('bg-url').value.trim();
+      const selected = document.querySelector('.gradient-swatch.selected');
 
       let value = null;
 
@@ -1132,8 +1446,8 @@
 
       if (url) {
         value = url;
-      } else if (selectedGradient) {
-        value = selectedGradient.dataset.gradient;
+      } else if (selected) {
+        value = selected.dataset.gradient;
       } else {
         showNotification('Pilih gambar, URL, atau gradien!', 'error');
         return;
@@ -1154,90 +1468,127 @@
       showNotification('Background direset 🔄');
     }
 
-    // ===== NAVIGATION =====
-    function goToPrevMonth() {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      renderCalendar();
+    // ============================================================
+    //  NAVIGATION
+    // ============================================================
+    function switchView(view) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      if (view === 'today') {
+        const idx = getCurrentSchoolDayIndex();
+        if (idx >= 0 && idx <= 5) {
+          setDay(idx);
+        } else {
+          setDay(0);
+        }
+        document.getElementById('navToday').classList.add('active');
+      } else {
+        document.getElementById('navSchedule').classList.add('active');
+      }
     }
 
-    function goToNextMonth() {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      renderCalendar();
+    // ============================================================
+    //  SPLASH SCREEN
+    // ============================================================
+    function hideSplash() {
+      const splash = document.getElementById('splashScreen');
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.style.display = 'none';
+        document.getElementById('appContent').classList.add('visible');
+      }, 600);
     }
 
-    function goToToday() {
-      currentDate = new Date();
-      renderCalendar();
-    }
-
-    // ===== INIT =====
+    // ============================================================
+    //  INIT
+    // ============================================================
     function init() {
-      loadEvents();
+      // Set active day to today
+      const todayIdx = getCurrentSchoolDayIndex();
+      activeDay = (todayIdx >= 0 && todayIdx <= 5) ? todayIdx : 0;
+
       loadBackground();
-      renderCalendar();
+      renderTabs();
+      renderSchedule();
+      updateClock();
 
-      setTimeout(checkTodayEvents, 1000);
+      // Update clock every second
+      setInterval(() => {
+        updateClock();
+        // Re-render schedule only if needed (for current class highlight)
+        renderSchedule();
+      }, 1000);
 
-      btnPrev.addEventListener('click', goToPrevMonth);
-      btnNext.addEventListener('click', goToNextMonth);
-      btnToday.addEventListener('click', goToToday);
+      // Hide splash after load
+      setTimeout(hideSplash, 1500);
 
-      btnAdd.addEventListener('click', () => openModal(null));
-      btnNotif.addEventListener('click', requestNotificationPermission);
-      btnBg.addEventListener('click', openBgModal);
+      // Event listeners
+      document.getElementById('btn-notif').addEventListener('click', requestNotificationPermission);
+      document.getElementById('btn-bg').addEventListener('click', openBgModal);
+      document.getElementById('bg-modal-close').addEventListener('click', closeBgModal);
+      document.getElementById('bg-cancel').addEventListener('click', closeBgModal);
+      document.getElementById('bg-apply').addEventListener('click', applyBackground);
+      document.getElementById('bg-reset').addEventListener('click', resetBackground);
 
-      bgCancel.addEventListener('click', closeBgModal);
-      bgModalClose.addEventListener('click', closeBgModal);
-      bgApply.addEventListener('click', applyBackground);
-      bgReset.addEventListener('click', resetBackground);
+      document.getElementById('bg-modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeBgModal();
+      });
 
-      gradientSwatches.forEach(swatch => {
-        swatch.addEventListener('click', () => {
-          gradientSwatches.forEach(s => s.classList.remove('selected'));
-          swatch.classList.add('selected');
+      document.querySelectorAll('.gradient-swatch').forEach(sw => {
+        sw.addEventListener('click', () => {
+          document.querySelectorAll('.gradient-swatch').forEach(s => s.classList.remove('selected'));
+          sw.classList.add('selected');
         });
       });
 
-      btnCancel.addEventListener('click', closeModal);
-      modalClose.addEventListener('click', closeModal);
-      btnSave.addEventListener('click', saveEvent);
-      btnDelete.addEventListener('click', deleteEvent);
+      document.getElementById('navSchedule').addEventListener('click', () => switchView('schedule'));
+      document.getElementById('navToday').addEventListener('click', () => switchView('today'));
 
-      eventModal.addEventListener('click', (e) => {
-        if (e.target === eventModal) closeModal();
-      });
-      bgModal.addEventListener('click', (e) => {
-        if (e.target === bgModal) closeBgModal();
+      document.getElementById('notif-close').addEventListener('click', () => {
+        document.getElementById('notif-banner').classList.add('hidden');
       });
 
-      dayPanelClose.addEventListener('click', () => {
-        dayPanel.classList.add('hidden');
-      });
-      dayPanelAdd.addEventListener('click', () => {
-        const date = dayPanel.dataset.date;
-        dayPanel.classList.add('hidden');
-        openModal(date);
+      // Install banner
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').classList.add('show');
       });
 
-      notifClose.addEventListener('click', () => {
-        notifBanner.classList.add('hidden');
+      document.getElementById('installBtn').addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          document.getElementById('installBanner').classList.remove('show');
+        }
       });
 
+      // Keyboard shortcuts
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-          if (!eventModal.classList.contains('hidden')) closeModal();
-          if (!bgModal.classList.contains('hidden')) closeBgModal();
-          if (!dayPanel.classList.contains('hidden')) dayPanel.classList.add('hidden');
+          if (!document.getElementById('bg-modal').classList.contains('hidden')) closeBgModal();
         }
-        if (e.key === 'ArrowLeft') goToPrevMonth();
-        if (e.key === 'ArrowRight') goToNextMonth();
+        if (e.key === 'ArrowLeft') {
+          const prev = activeDay > 0 ? activeDay - 1 : DAYS_DATA.length - 1;
+          setDay(prev);
+          switchView('schedule');
+        }
+        if (e.key === 'ArrowRight') {
+          const next = activeDay < DAYS_DATA.length - 1 ? activeDay + 1 : 0;
+          setDay(next);
+          switchView('schedule');
+        }
       });
+
+      // Check today's schedule for notification after a moment
+      setTimeout(checkTodaySchedule, 3000);
+
+      console.log('📚 XII RPL 2 — Jadwal siap!');
     }
 
+    // Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('✅ SW registered'))
-        .catch(() => console.log('⚠️ SW registration failed'));
+      navigator.serviceWorker.register('sw.js').catch(() => {});
     }
 
     document.addEventListener('DOMContentLoaded', init);
