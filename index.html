@@ -14,9 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
-        /* ============================================================
-               RESET & THEME
-               ============================================================ */
+        /* ===== RESET & THEME ===== */
         * {
             margin: 0;
             padding: 0;
@@ -28,15 +26,12 @@
             --primary: #2c5f8a;
             --primary-light: #4a90c4;
             --primary-soft: #e8f0fe;
-
             --secondary: #e67e22;
             --secondary-light: #f39c12;
             --secondary-soft: #fef3e8;
-
             --accent: #0f9d8e;
             --accent-light: #2dc4b3;
             --accent-soft: #e6f6f4;
-
             --bg: #f8fafc;
             --bg-card: #ffffff;
             --surface: #ffffff;
@@ -45,11 +40,9 @@
             --text-light: #64748b;
             --text-muted: #94a3b8;
             --border: #e2e8f0;
-
             --success: #10b981;
             --warning: #f59e0b;
             --info: #3b82f6;
-
             --radius-sm: 12px;
             --radius: 20px;
             --radius-lg: 28px;
@@ -71,16 +64,11 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image:
-                radial-gradient(circle at 10% 20%, rgba(44, 95, 138, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(15, 157, 142, 0.03) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 10% 20%, rgba(44, 95, 138, 0.03) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(15, 157, 142, 0.03) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* ============================================================
-               BACKGROUND LAYER
-               ============================================================ */
         #bg-layer {
             position: fixed;
             inset: 0;
@@ -88,13 +76,11 @@
             background: var(--bg);
             transition: background 0.5s ease;
         }
-
         #bg-layer.has-image {
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
-
         #bg-overlay {
             position: fixed;
             inset: 0;
@@ -105,9 +91,7 @@
             pointer-events: none;
         }
 
-        /* ============================================================
-               SPLASH SCREEN
-               ============================================================ */
+        /* ===== SPLASH ===== */
         .splash-screen {
             position: fixed;
             top: 0;
@@ -122,17 +106,14 @@
             transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 1;
         }
-
         .splash-screen.fade-out {
             opacity: 0;
             pointer-events: none;
         }
-
         .splash-content {
             text-align: center;
             animation: splashScale 0.6s ease-out;
         }
-
         @keyframes splashScale {
             0% {
                 transform: scale(0.8);
@@ -143,7 +124,6 @@
                 opacity: 1;
             }
         }
-
         .splash-logo {
             width: 100px;
             height: 100px;
@@ -157,7 +137,6 @@
             animation: logoFloat 2s ease-in-out infinite;
             font-size: 3rem;
         }
-
         @keyframes logoFloat {
             0%,
             100% {
@@ -167,7 +146,6 @@
                 transform: translateY(-8px);
             }
         }
-
         .splash-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 3rem;
@@ -176,14 +154,12 @@
             letter-spacing: -0.02em;
             margin-bottom: 8px;
         }
-
         .splash-subtitle {
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.9rem;
             font-weight: 500;
             letter-spacing: 1px;
         }
-
         .splash-loader {
             width: 32px;
             height: 32px;
@@ -193,7 +169,6 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-
         @keyframes spin {
             to {
                 transform: rotate(360deg);
@@ -206,14 +181,11 @@
             position: relative;
             z-index: 2;
         }
-
         .app-content.visible {
             opacity: 1;
         }
 
-        /* ============================================================
-               NOTIF BANNER
-               ============================================================ */
+        /* ===== NOTIF BANNER ===== */
         .notif-banner {
             position: fixed;
             top: 0;
@@ -231,11 +203,9 @@
             animation: slideDown 0.3s ease;
             min-height: 44px;
         }
-
         .notif-banner.hidden {
             display: none;
         }
-
         .notif-banner button {
             background: none;
             border: none;
@@ -246,7 +216,6 @@
             min-height: 44px;
             color: inherit;
         }
-
         @keyframes slideDown {
             from {
                 transform: translateY(-100%);
@@ -256,9 +225,7 @@
             }
         }
 
-        /* ============================================================
-               HEADER
-               ============================================================ */
+        /* ===== HEADER ===== */
         header {
             position: sticky;
             top: 0;
@@ -268,7 +235,6 @@
             border-bottom: 1px solid var(--border);
             padding: 0 16px;
         }
-
         .header-inner {
             max-width: 480px;
             margin: 0 auto;
@@ -278,7 +244,6 @@
             height: 64px;
             gap: 8px;
         }
-
         .logo {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 1.6rem;
@@ -290,7 +255,6 @@
             letter-spacing: -0.02em;
             line-height: 1.1;
         }
-
         .logo span {
             font-size: 0.45rem;
             font-weight: 500;
@@ -299,13 +263,11 @@
             letter-spacing: 0.5px;
             margin-top: 1px;
         }
-
         .header-right {
             display: flex;
             align-items: center;
             gap: 6px;
         }
-
         .today-badge {
             background: linear-gradient(135deg, var(--primary-light), var(--primary));
             color: white;
@@ -316,7 +278,6 @@
             letter-spacing: 0.3px;
             white-space: nowrap;
         }
-
         .icon-btn {
             background: var(--surface-light);
             border: 1px solid var(--border);
@@ -334,20 +295,16 @@
             touch-action: manipulation;
             user-select: none;
         }
-
         .icon-btn:active {
             transform: scale(0.92);
         }
-
         .icon-btn:hover {
             background: var(--primary-soft);
             border-color: var(--primary-light);
             color: var(--primary);
         }
 
-        /* ============================================================
-               MAIN
-               ============================================================ */
+        /* ===== MAIN ===== */
         main {
             position: relative;
             z-index: 2;
@@ -356,9 +313,7 @@
             padding: 16px 16px 100px;
         }
 
-        /* ============================================================
-               LIVE CLOCK
-               ============================================================ */
+        /* ===== LIVE CLOCK ===== */
         .live-clock {
             text-align: center;
             margin-bottom: 24px;
@@ -367,7 +322,6 @@
             padding: 18px 16px;
             border: 1px solid rgba(44, 95, 138, 0.1);
         }
-
         .clock-time {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 2.8rem;
@@ -377,15 +331,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.02em;
+            font-variant-numeric: tabular-nums;
         }
-
         .clock-info {
             font-size: 0.8rem;
             color: var(--text-light);
             margin-top: 4px;
             font-weight: 500;
         }
-
         .current-subject-pill {
             display: inline-block;
             margin-top: 10px;
@@ -398,9 +351,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* ============================================================
-               INSTALL BANNER
-               ============================================================ */
+        /* ===== INSTALL BANNER ===== */
         .install-banner {
             display: none;
             margin-bottom: 20px;
@@ -411,18 +362,15 @@
             gap: 12px;
             box-shadow: var(--shadow);
         }
-
         .install-banner.show {
             display: flex;
         }
-
         .install-banner p {
             flex: 1;
             font-size: 0.8rem;
             font-weight: 600;
             color: white;
         }
-
         .install-btn {
             background: white;
             color: var(--primary);
@@ -434,14 +382,11 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-
         .install-btn:hover {
             transform: scale(1.02);
         }
 
-        /* ============================================================
-               DAY TABS
-               ============================================================ */
+        /* ===== DAY TABS ===== */
         .day-tabs {
             display: flex;
             gap: 6px;
@@ -450,11 +395,9 @@
             scrollbar-width: none;
             padding: 4px 0;
         }
-
         .day-tabs::-webkit-scrollbar {
             display: none;
         }
-
         .day-tab {
             flex-shrink: 0;
             padding: 8px 16px;
@@ -468,7 +411,6 @@
             white-space: nowrap;
             border: 1px solid var(--border);
         }
-
         .day-tab.active {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border-color: transparent;
@@ -476,16 +418,13 @@
             box-shadow: var(--shadow);
             transform: scale(1.02);
         }
-
         .day-tab:hover:not(.active) {
             background: var(--surface-light);
             border-color: var(--primary-light);
             color: var(--primary);
         }
 
-        /* ============================================================
-               SCHEDULE CARD
-               ============================================================ */
+        /* ===== SCHEDULE CARD ===== */
         .schedule-card {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
@@ -494,12 +433,10 @@
             transition: transform 0.2s, box-shadow 0.2s;
             border: 1px solid var(--border);
         }
-
         .schedule-card:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
         }
-
         .schedule-day-header {
             padding: 16px 20px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -507,18 +444,15 @@
             align-items: center;
             gap: 10px;
         }
-
         .schedule-day-header .day-emoji {
             font-size: 1.6rem;
         }
-
         .schedule-day-header .day-name {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 1.2rem;
             font-weight: 700;
             color: white;
         }
-
         .schedule-day-header .day-date {
             margin-left: auto;
             font-size: 0.7rem;
@@ -529,45 +463,35 @@
             border-radius: 20px;
         }
 
-        /* ============================================================
-               SCHEDULE ROWS
-               ============================================================ */
+        /* ===== SCHEDULE ROWS ===== */
         .schedule-row {
             display: flex;
             align-items: stretch;
             border-bottom: 1px solid var(--border);
-            transition: all 0.2s;
+            transition: background 0.3s ease;
         }
-
         .schedule-row:last-child {
             border-bottom: none;
         }
-
         .schedule-row:hover {
             background: var(--surface-light);
         }
-
         .schedule-row.type-break {
             background: var(--accent-soft);
         }
-
         .schedule-row.type-pray {
             background: var(--secondary-soft);
         }
-
         .schedule-row.type-go {
             background: linear-gradient(90deg, rgba(15, 157, 142, 0.08), transparent);
         }
-
         .schedule-row.type-ceremony {
             background: rgba(148, 163, 184, 0.08);
         }
-
         .schedule-row.current-class {
             background: linear-gradient(90deg, rgba(44, 95, 138, 0.10), rgba(44, 95, 138, 0.05)) !important;
             position: relative;
         }
-
         .schedule-row.current-class::before {
             content: '';
             position: absolute;
@@ -589,14 +513,12 @@
             align-items: flex-end;
             border-right: 1px solid var(--border);
         }
-
         .time-start {
             font-size: 0.8rem;
             font-weight: 700;
             color: var(--text);
             font-variant-numeric: tabular-nums;
         }
-
         .time-end {
             font-size: 0.65rem;
             color: var(--text-muted);
@@ -612,7 +534,6 @@
             gap: 10px;
             min-width: 0;
         }
-
         .subject-icon {
             width: 32px;
             height: 32px;
@@ -623,7 +544,6 @@
             font-size: 1rem;
             flex-shrink: 0;
         }
-
         .icon-main {
             background: var(--primary-soft);
         }
@@ -647,34 +567,24 @@
             line-height: 1.3;
             word-break: break-word;
         }
-
-        .subject-name.dim {
-            color: var(--text-muted);
-        }
-
         .type-break .subject-name {
             color: var(--accent);
             font-weight: 600;
         }
-
         .type-pray .subject-name {
             color: var(--secondary);
             font-weight: 600;
         }
-
         .type-go .subject-name {
             color: var(--accent);
             font-weight: 700;
         }
-
         .type-ceremony .subject-name {
             color: var(--text-light);
             font-weight: 500;
         }
 
-        /* ============================================================
-               BOTTOM NAV
-               ============================================================ */
+        /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -690,7 +600,6 @@
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
             z-index: 200;
         }
-
         .nav-item {
             flex: 1;
             max-width: 120px;
@@ -710,24 +619,19 @@
             background: transparent;
             border: none;
         }
-
         .nav-item.active {
             color: var(--primary);
         }
-
         .nav-item svg {
             width: 20px;
             height: 20px;
             transition: transform 0.2s;
         }
-
         .nav-item:hover svg {
             transform: translateY(-2px);
         }
 
-        /* ============================================================
-               MODAL BACKGROUND
-               ============================================================ */
+        /* ===== MODAL BACKGROUND ===== */
         .modal-backdrop {
             position: fixed;
             inset: 0;
@@ -741,11 +645,9 @@
             padding: 16px;
             animation: fadeIn 0.2s ease;
         }
-
         .modal-backdrop.hidden {
             display: none;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -765,7 +667,6 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-
         @keyframes slideUp {
             from {
                 transform: translateY(30px);
@@ -784,21 +685,18 @@
             padding: 16px 20px 12px;
             border-bottom: 1px solid var(--border);
         }
-
         .modal-header h2 {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
             color: var(--text);
         }
-
         .modal-body {
             padding: 16px 20px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
-
         .modal-body label {
             display: flex;
             flex-direction: column;
@@ -809,7 +707,6 @@
             letter-spacing: 0.04em;
             text-transform: uppercase;
         }
-
         .modal-body input {
             background: var(--surface-light);
             border: 1px solid var(--border);
@@ -821,12 +718,10 @@
             width: 100%;
             transition: border-color 0.2s;
         }
-
         .modal-body input:focus {
             outline: none;
             border-color: var(--primary);
         }
-
         .modal-footer {
             display: flex;
             align-items: center;
@@ -835,7 +730,6 @@
             border-top: 1px solid var(--border);
             gap: 8px;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
@@ -849,16 +743,13 @@
             transition: all 0.2s;
             min-height: 40px;
         }
-
         .btn-primary:active {
             transform: scale(0.96);
         }
-
         .btn-primary:hover {
             box-shadow: var(--shadow);
             transform: translateY(-1px);
         }
-
         .btn-secondary {
             background: var(--surface-light);
             color: var(--text);
@@ -872,15 +763,12 @@
             transition: all 0.2s;
             min-height: 40px;
         }
-
         .btn-secondary:active {
             transform: scale(0.96);
         }
-
         .btn-secondary:hover {
             background: var(--border);
         }
-
         .btn-danger {
             background: rgba(231, 76, 60, 0.1);
             color: #e74c3c;
@@ -894,34 +782,27 @@
             transition: all 0.2s;
             min-height: 40px;
         }
-
         .btn-danger:active {
             transform: scale(0.96);
         }
-
         .btn-danger:hover {
             background: #e74c3c;
             color: white;
         }
-
         .btn-danger.hidden {
             display: none;
         }
-
         .full-width {
             width: 100%;
             margin-top: 4px;
         }
 
-        /* ============================================================
-               GRADIENT PICKER
-               ============================================================ */
+        /* ===== GRADIENT PICKER ===== */
         .gradient-picker {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-
         .gradient-swatch {
             width: 38px;
             height: 38px;
@@ -931,20 +812,15 @@
             transition: all 0.2s;
             min-width: 38px;
         }
-
         .gradient-swatch:active {
             transform: scale(0.92);
         }
-
         .gradient-swatch:hover,
         .gradient-swatch.selected {
             border-color: var(--primary);
             transform: scale(1.05);
         }
 
-        /* ============================================================
-               ANIMATIONS
-               ============================================================ */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -955,14 +831,11 @@
                 transform: translateY(0);
             }
         }
-
         .schedule-card {
             animation: fadeInUp 0.35s ease forwards;
         }
 
-        /* ============================================================
-               RESPONSIVE
-               ============================================================ */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .header-inner {
                 height: 56px;
@@ -1056,9 +929,6 @@
             }
         }
 
-        /* ============================================================
-               SCROLLBAR
-               ============================================================ */
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -1069,10 +939,6 @@
             background: rgba(44, 95, 138, 0.2);
             border-radius: 10px;
         }
-
-        /* ============================================================
-               UTILITY
-               ============================================================ */
         .hidden {
             display: none !important;
         }
@@ -1080,15 +946,11 @@
 </head>
 <body>
 
-    <!-- ============================================================
-    BACKGROUND LAYER
-    ============================================================ -->
+    <!-- ===== BACKGROUND LAYER ===== -->
     <div id="bg-layer"></div>
     <div id="bg-overlay"></div>
 
-    <!-- ============================================================
-    SPLASH SCREEN
-    ============================================================ -->
+    <!-- ===== SPLASH SCREEN ===== -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-content">
             <div class="splash-logo">📚</div>
@@ -1098,17 +960,13 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    NOTIF BANNER
-    ============================================================ -->
+    <!-- ===== NOTIF BANNER ===== -->
     <div id="notif-banner" class="notif-banner hidden">
         <span id="notif-text"></span>
         <button id="notif-close">✕</button>
     </div>
 
-    <!-- ============================================================
-    APP CONTENT
-    ============================================================ -->
+    <!-- ===== APP CONTENT ===== -->
     <div class="app-content" id="appContent">
 
         <!-- HEADER -->
@@ -1169,9 +1027,7 @@
         </nav>
     </div>
 
-    <!-- ============================================================
-    MODAL BACKGROUND
-    ============================================================ -->
+    <!-- ===== MODAL BACKGROUND ===== -->
     <div class="modal-backdrop hidden" id="bg-modal">
         <div class="modal">
             <div class="modal-header">
@@ -1206,7 +1062,7 @@
 
     <script>
         // ============================================================
-        //  DATA JADWAL XII RPL 2
+        //  DATA JADWAL XII RPL 2 — LENGKAP & BENAR
         // ============================================================
         const DAYS_DATA = [{
             name: 'Senin',
@@ -1214,10 +1070,11 @@
             short: 'Sen',
             schedule: [
                 { time: '06.45', end: '07.30', subject: 'Upacara & Public Speaking', type: 'ceremony', icon: '🎤' },
-                { time: '07.30', end: '11.50', subject: 'Pemrograman Web', type: 'main', icon: '🌐' },
+                { time: '07.30', end: '11.50', subject: 'Pemrograman Web (pak Sulthan)', type: 'main', icon: '🌐' },
                 { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
-                { time: '13.00', end: '14.20', subject: 'B.Inggris', type: 'main', icon: '🗣️' },
-                { time: '14.20', end: '15.40', subject: 'Pemrograman Perangkat Bergerak', type: 'main', icon: '📱' },
+                { time: '13.00', end: '14.20', subject: 'B.Inggris (mrs Ika)', type: 'main', icon: '🗣️' },
+                { time: '14.20', end: '15.40', subject: 'Pemrograman Perangkat Bergerak (pak Anto)', type: 'main',
+                    icon: '📱' },
                 { time: '15.40', end: '16.00', subject: 'Salat Asar & pulang', type: 'go', icon: '🏠' },
             ]
         }, {
@@ -1226,10 +1083,11 @@
             short: 'Sel',
             schedule: [
                 { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
-                { time: '07.30', end: '11.50', subject: 'Pemrograman Perangkat Bergerak', type: 'main', icon: '📱' },
+                { time: '07.30', end: '11.50', subject: 'Pemrograman Perangkat Bergerak (pak Anto)', type: 'main',
+                    icon: '📱' },
                 { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
-                { time: '13.00', end: '14.20', subject: 'Pemrograman Web', type: 'main', icon: '🌐' },
-                { time: '14.20', end: '15.40', subject: 'B.Jepang', type: 'main', icon: '🗾' },
+                { time: '13.00', end: '14.20', subject: 'Pemrograman Web (pak Sulthan)', type: 'main', icon: '🌐' },
+                { time: '14.20', end: '15.40', subject: 'B.Jepang (sensei Bagoes)', type: 'main', icon: '🗾' },
                 { time: '15.40', end: '16.00', subject: 'Salat Asar & pulang', type: 'go', icon: '🏠' },
             ]
         }, {
@@ -1238,12 +1096,12 @@
             short: 'Rab',
             schedule: [
                 { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
-                { time: '07.30', end: '08.50', subject: 'KIK', type: 'main', icon: '🧠' },
+                { time: '07.30', end: '08.50', subject: 'KIK (bu Yuli)', type: 'main', icon: '🧠' },
                 { time: '08.50', end: '09.10', subject: 'Istirahat', type: 'break', icon: '☕' },
-                { time: '09.10', end: '10.30', subject: 'B.Inggris', type: 'main', icon: '🗣️' },
-                { time: '10.30', end: '11.50', subject: 'PAI', type: 'main', icon: '☪️' },
+                { time: '09.10', end: '10.30', subject: 'B.Inggris (mrs Ika)', type: 'main', icon: '🗣️' },
+                { time: '10.30', end: '11.50', subject: 'PAI (bu Mustamah)', type: 'main', icon: '☪️' },
                 { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
-                { time: '13.00', end: '15.40', subject: 'Pemrograman Berbasis Teks, Grafis, dan Multimedia',
+                { time: '13.00', end: '15.40', subject: 'Pemrograman Berbasis Teks, Grafis, dan Multimedia (pak Sulthan)',
                     type: 'main', icon: '🎨' },
                 { time: '15.40', end: '16.00', subject: 'Salat Asar & pulang', type: 'go', icon: '🏠' },
             ]
@@ -1253,11 +1111,11 @@
             short: 'Kam',
             schedule: [
                 { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
-                { time: '07.30', end: '08.50', subject: 'Basis Data', type: 'main', icon: '🗄️' },
+                { time: '07.30', end: '08.50', subject: 'Basis Data (bu Sashi)', type: 'main', icon: '🗄️' },
                 { time: '08.50', end: '09.10', subject: 'Istirahat', type: 'break', icon: '☕' },
-                { time: '09.10', end: '11.50', subject: 'Machine Learning', type: 'main', icon: '🤖' },
+                { time: '09.10', end: '11.50', subject: 'Machine Learning (bu Sashi)', type: 'main', icon: '🤖' },
                 { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
-                { time: '13.00', end: '15.40', subject: 'MTK', type: 'main', icon: '📐' },
+                { time: '13.00', end: '15.40', subject: 'MTK (bu Asit)', type: 'main', icon: '📐' },
                 { time: '15.40', end: '16.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
                 { time: '16.00', end: '16.40', subject: 'Soft Skill', type: 'main', icon: '💡' },
             ]
@@ -1267,14 +1125,14 @@
             short: 'Jum',
             schedule: [
                 { time: '06.45', end: '07.30', subject: 'DuQuBa & Public Speaking', type: 'ceremony', icon: '📖' },
-                { time: '07.30', end: '08.50', subject: 'KIK', type: 'main', icon: '🧠' },
+                { time: '07.30', end: '08.50', subject: 'KIK (bu Yuli)', type: 'main', icon: '🧠' },
                 { time: '08.50', end: '09.10', subject: 'Istirahat', type: 'break', icon: '☕' },
-                { time: '09.10', end: '09.50', subject: 'Bimbingan Karier', type: 'main', icon: '🧭' },
-                { time: '09.50', end: '11.50', subject: 'B.Indo', type: 'main', icon: '📝' },
+                { time: '09.10', end: '09.50', subject: 'Bimbingan Karier (pak Nunu)', type: 'main', icon: '🧭' },
+                { time: '09.50', end: '11.50', subject: 'B.Indo (bu Indah)', type: 'main', icon: '📝' },
                 { time: '11.50', end: '13.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
-                { time: '13.00', end: '14.20', subject: 'Pendidikan Pancasila', type: 'main', icon: '🇮🇩' },
-                { time: '14.20', end: '15.00', subject: 'PAI', type: 'main', icon: '☪️' },
-                { time: '15.00', end: '15.40', subject: 'Qirotul Quran', type: 'main', icon: '📗' },
+                { time: '13.00', end: '14.20', subject: 'Pendidikan Pancasila (bu Fitri)', type: 'main', icon: '🇮🇩' },
+                { time: '14.20', end: '15.00', subject: 'PAI (bu Mustamah)', type: 'main', icon: '☪️' },
+                { time: '15.00', end: '15.40', subject: 'Qirotul Quran (bu Mustamah)', type: 'main', icon: '📗' },
                 { time: '15.40', end: '16.00', subject: 'ISHOMA', type: 'pray', icon: '🕌' },
             ]
         }, {
@@ -1283,11 +1141,11 @@
             short: 'Sab',
             schedule: [
                 { time: '06.45', end: '07.15', subject: 'DuQuBa', type: 'ceremony', icon: '📖' },
-                { time: '07.15', end: '08.25', subject: 'MTK', type: 'main', icon: '📐' },
-                { time: '08.25', end: '09.35', subject: 'B.Inggris', type: 'main', icon: '🗣️' },
+                { time: '07.15', end: '08.25', subject: 'MTK (bu Siti Nurjanah)', type: 'main', icon: '📐' },
+                { time: '08.25', end: '09.35', subject: 'B.Inggris (mrs Putri)', type: 'main', icon: '🗣️' },
                 { time: '09.35', end: '09.55', subject: 'Istirahat', type: 'break', icon: '☕' },
-                { time: '09.55', end: '11.05', subject: 'Bimbingan Karier', type: 'main', icon: '🧭' },
-                { time: '11.05', end: '12.15', subject: 'B.Indo', type: 'main', icon: '📝' },
+                { time: '09.55', end: '11.05', subject: 'Bimbingan Karier (mr Nunu)', type: 'main', icon: '🧭' },
+                { time: '11.05', end: '12.15', subject: 'B.Indo (pak Ipin)', type: 'main', icon: '📝' },
                 { time: '12.15', end: '13.00', subject: 'Salat zuhur berjamaah & pulang', type: 'go', icon: '🏠' },
             ]
         }];
@@ -1301,6 +1159,10 @@
         let activeDay = 0;
         let deferredPrompt = null;
         let notifTimer = null;
+        // Cache biar pill/badge nggak nulis ulang DOM kalau isinya sama (anti kedip)
+        let lastPillHTML = null;
+        let lastDateStr = null;
+        let lastBadgeText = null;
 
         // ============================================================
         //  HELPERS
@@ -1322,16 +1184,8 @@
 
         function getCurrentSchoolDayIndex() {
             const d = new Date().getDay();
-            if (d === 0) return 5; // Minggu -> Sabtu (tidak ada jadwal)
+            if (d === 0) return 5;
             return d - 1;
-        }
-
-        function getTodayDateStr() {
-            const now = new Date();
-            const d = now.getDate();
-            const m = MONTH_NAMES[now.getMonth()];
-            const y = now.getFullYear();
-            return `${d} ${m} ${y}`;
         }
 
         // ============================================================
@@ -1344,13 +1198,13 @@
             ).join('');
         }
 
+        // Bangun ulang seluruh kartu jadwal — HANYA dipanggil saat ganti hari,
+        // bukan tiap detik. Ini yang sebelumnya bikin kedap-kedip.
         function renderSchedule() {
             const day = DAYS_DATA[activeDay];
             const now = nowMinutes();
             const todayIdx = getCurrentSchoolDayIndex();
             const isToday = activeDay === todayIdx;
-
-            const isSchoolDay = todayIdx >= 0 && todayIdx <= 4;
 
             const rows = day.schedule.map(item => {
                 const start = parseTime(item.time);
@@ -1371,27 +1225,45 @@
                 else if (item.type === 'ceremony') iconClass = 'icon-ceremony';
 
                 return `
-                        <div class="${rowClass}">
-                            <div class="time-col">${timeHTML}</div>
-                            <div class="subject-col">
-                                <div class="subject-icon ${iconClass}">${item.icon}</div>
-                                <div class="subject-name">${item.subject}</div>
-                            </div>
+                    <div class="${rowClass}" data-start="${start ?? ''}" data-end="${end ?? ''}">
+                        <div class="time-col">${timeHTML}</div>
+                        <div class="subject-col">
+                            <div class="subject-icon ${iconClass}">${item.icon}</div>
+                            <div class="subject-name">${item.subject}</div>
                         </div>
-                    `;
+                    </div>
+                `;
             }).join('');
 
             const dateInfo = isToday ? 'Hari ini' : '';
             document.getElementById('scheduleDisplay').innerHTML = `
-                    <div class="schedule-card">
-                        <div class="schedule-day-header">
-                            <span class="day-emoji">${day.emoji}</span>
-                            <span class="day-name">${day.name}</span>
-                            ${dateInfo ? `<span class="day-date">${dateInfo}</span>` : ''}
-                        </div>
-                        ${rows}
+                <div class="schedule-card">
+                    <div class="schedule-day-header">
+                        <span class="day-emoji">${day.emoji}</span>
+                        <span class="day-name">${day.name}</span>
+                        ${dateInfo ? `<span class="day-date">${dateInfo}</span>` : ''}
                     </div>
-                `;
+                    ${rows}
+                </div>
+            `;
+        }
+
+        // Update highlight "sedang berlangsung" tiap detik TANPA render ulang
+        // seluruh list — cuma toggle class pada baris yang relevan.
+        function updateCurrentHighlight() {
+            const isToday = activeDay === getCurrentSchoolDayIndex();
+            const now = nowMinutes();
+            const rows = document.querySelectorAll('#scheduleDisplay .schedule-row');
+            rows.forEach(row => {
+                const start = parseInt(row.dataset.start, 10);
+                const end = parseInt(row.dataset.end, 10);
+                const isCurrent = isToday && !isNaN(start) && !isNaN(end) && start <= now && now < end;
+                if (isCurrent) {
+                    row.classList.add('current-class');
+                } else {
+                    row.classList.remove('current-class');
+                }
+            });
         }
 
         function setDay(idx) {
@@ -1411,12 +1283,19 @@
             const m = String(now.getMinutes()).padStart(2, '0');
             const s = String(now.getSeconds()).padStart(2, '0');
 
+            // textContent tiap detik itu ringan & nggak bikin kedip (bukan innerHTML)
             document.getElementById('clockTime').textContent = `${h}:${m}:${s}`;
 
             const dayName = DAY_NAMES_ID[now.getDay()];
             const dateStr = `${dayName}, ${now.getDate()} ${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
-            document.getElementById('clockDate').textContent = dateStr;
-            document.getElementById('todayBadge').textContent = dayName;
+            if (dateStr !== lastDateStr) {
+                document.getElementById('clockDate').textContent = dateStr;
+                lastDateStr = dateStr;
+            }
+            if (dayName !== lastBadgeText) {
+                document.getElementById('todayBadge').textContent = dayName;
+                lastBadgeText = dayName;
+            }
 
             const todayIdx = getCurrentSchoolDayIndex();
             const isSchoolDay = todayIdx >= 0 && todayIdx <= 4;
@@ -1435,19 +1314,25 @@
                 }
             }
 
-            const pill = document.getElementById('currentPill');
+            let pillHTML;
             if (currentSubj && isSchoolDay) {
-                pill.innerHTML = `<div class="current-subject-pill">📌 Sedang: ${currentSubj.subject}</div>`;
+                pillHTML = `<div class="current-subject-pill">📌 Sedang: ${currentSubj.subject}</div>`;
             } else if (isSchoolDay) {
                 const lastItem = DAYS_DATA[todayIdx].schedule[DAYS_DATA[todayIdx].schedule.length - 1];
                 const lastStart = parseTime(lastItem.time);
                 if (lastStart && nowMin >= lastStart) {
-                    pill.innerHTML = `<div class="current-subject-pill" style="background:var(--accent);">✅ Selesai belajar!</div>`;
+                    pillHTML = `<div class="current-subject-pill" style="background:var(--accent);">✅ Selesai belajar!</div>`;
                 } else {
-                    pill.innerHTML = `<div class="current-subject-pill" style="background:var(--text-muted);">⏳ Belum mulai</div>`;
+                    pillHTML = `<div class="current-subject-pill" style="background:var(--text-muted);">⏳ Belum mulai</div>`;
                 }
             } else {
-                pill.innerHTML = `<div class="current-subject-pill" style="background:var(--text-muted);">📅 Libur / Akhir Pekan</div>`;
+                pillHTML = `<div class="current-subject-pill" style="background:var(--text-muted);">📅 Libur / Akhir Pekan</div>`;
+            }
+
+            // Cuma tulis ulang DOM kalau isinya benar-benar berubah
+            if (pillHTML !== lastPillHTML) {
+                document.getElementById('currentPill').innerHTML = pillHTML;
+                lastPillHTML = pillHTML;
             }
         }
 
@@ -1640,9 +1525,12 @@
             renderSchedule();
             updateClock();
 
+            // Jam tetap update tiap detik (ringan, cuma teks).
+            // Jadwal TIDAK di-render ulang tiap detik lagi — cuma highlight-nya
+            // yang di-toggle, jadi kartu jadwal nggak kedap-kedip.
             setInterval(() => {
                 updateClock();
-                renderSchedule();
+                updateCurrentHighlight();
             }, 1000);
 
             setTimeout(hideSplash, 1500);
@@ -1708,7 +1596,6 @@
             console.log('📚 XII RPL 2 — Jadwal siap!');
         }
 
-        // Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
