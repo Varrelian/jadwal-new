@@ -1,33 +1,76 @@
-const CACHE = 'git-jadwal-v1';
-const ASSETS = [
+const CACHE_NAME = 'xii-rpl2-jadwal-v1';
+const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.svg',
-  './icon-512.svg',
-  'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap'
+  './icons/icon-72.png',
+  './icons/icon-96.png',
+  './icons/icon-128.png',
+  './icons/icon-144.png',
+  './icons/icon-152.png',
+  './icons/icon-180.png',
+  './icons/icon-192.png',
+  './icons/icon-384.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
 ];
 
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(ASSETS).catch(() => {}))
+// Install: simpan file inti ke cache
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+// Activate: buang cache versi lama
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.filter((key) => key !== CACHE_NAME)
+            .map((key) => caches.delete(key))
+      )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      return cached || fetch(e.request).catch(() => caches.match('./index.html'));
-    })
+// Fetch: cache-first untuk aset sendiri, network-first untuk font eksternal,
+// dan fallback ke index.html kalau offline & buka halaman baru.
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+  const url = new URL(req.url);
+
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      fetch(req).catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  if (url.origin === self.location.origin) {
+    event.respondWith(
+      caches.match(req).then((cached) => {
+        if (cached) return cached;
+        return fetch(req).then((res) => {
+          const resClone = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
+          return res;
+        }).catch(() => cached);
+      })
+    );
+    return;
+  }
+
+  // Aset eksternal (font, dll) — network-first, fallback ke cache kalau ada
+  event.respondWith(
+    fetch(req)
+      .then((res) => {
+        const resClone = res.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
+        return res;
+      })
+      .catch(() => caches.match(req))
   );
 });
